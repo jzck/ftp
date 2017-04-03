@@ -6,7 +6,7 @@
 #    By: wescande <wescande@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/08/29 21:32:58 by wescande          #+#    #+#              #
-#    Updated: 2017/04/02 21:32:01 by jhalford         ###   ########.fr        #
+#    Updated: 2017/04/03 16:12:06 by jhalford         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,8 +35,9 @@ CLIENT_OBJ	=	$(OBJ_DIR)client.o
 
 SRC_BASE	=	\
 client.c\
-server.c\
-test.c
+ftp.c\
+ftp_cmd.c\
+server.c
 
 SRCS		=	$(addprefix $(SRC_DIR), $(SRC_BASE))
 OBJS		=	$(addprefix $(OBJ_DIR), $(SRC_BASE:.c=.o))

@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/02 19:18:31 by jhalford          #+#    #+#             */
-/*   Updated: 2017/04/02 21:40:32 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/04/03 17:20:42 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,11 @@ int		main(int ac, char **av)
 		perror(av[0]);
 		return (1);
 	}
-	write(sock, "bonjour\n", 8);
+	while (1)
+	{
+		ft_readline();
+		write(sock, "bonjour\n", 8);
+	}
 	close(sock);
 	return (0);
 }
