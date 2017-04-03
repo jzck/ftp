@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/02 19:18:58 by jhalford          #+#    #+#             */
-/*   Updated: 2017/04/03 17:12:59 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/04/03 18:42:28 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,19 @@
 # define FTP_SERVER_USAGE	"%s <port>"
 # define FTP_CLIENT_USAGE	"%s <addr> <port>"
 # define FTP_BUF			1024
+# define FTP_READ_BUF		1024
 # define FTP_REPLY_BUF		1024
 
-#include "libft.h"
-#include "sys/socket.h"
-#include "netdb.h"
-#include "netinet/in.h"
-#include "arpa/inet.h"
+# include "libft.h"
+# include <sys/socket.h>
+# include <netdb.h>
+# include <netinet/in.h>
+# include <arpa/inet.h>
+
+# include <signal.h>
+
+# include <stdio.h>
+# include <readline/readline.h>
 
 typedef struct s_ftp_reply	t_ftp_reply;
 

@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 16:08:44 by jhalford          #+#    #+#             */
-/*   Updated: 2017/04/03 17:20:01 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/04/03 18:24:24 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		ftp_spawn(int cs)
 	ft_printf("{yel}{inv}%i {gre} new connection {eoc}\n", getpid());
 	while ((r = read(cs, buf, FTP_BUF)) > 0)
 	{
-		buf[r - 1] = 0;
+		buf[r] = 0;
 		ft_printf("{yel}{inv}%i {eoc} received %i bytes: [%s]\n", getpid(), r, buf);
 		ft_bzero(&reply, sizeof(reply));
 		ftp_cmd(buf, &reply);

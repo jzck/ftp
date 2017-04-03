@@ -6,13 +6,11 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/02 19:18:31 by jhalford          #+#    #+#             */
-/*   Updated: 2017/04/03 17:20:42 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/04/03 18:43:40 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p.h"
-
-#define FTP_CLIENT_USAGE	"%s <addr> <port>"
 
 int		create_client(char *addr, int port)
 {
@@ -31,11 +29,25 @@ int		create_client(char *addr, int port)
 	return (sock);
 }
 
+void	sigint_nl(int signo)
+{
+	(void)signo;
+	ft_putchar('\n');
+	signal(SIGINT, SIG_DFL);
+	kill(SIGINT, getpid());
+}
+
 int		main(int ac, char **av)
 {
-	int 				port;
-	int					sock;
+	int 	port;
+	int		sock;
+	char	buf[FTP_READ_BUF];
+	char	*input;
+	pid_t	pid;
+	pid_t	client_pid;
+	int		status;
 
+	client_pid = getpid();
 	if (ac != 3)
 		ft_usage(FTP_CLIENT_USAGE, av[0]);
 	port = ft_atoi(av[2]);
@@ -44,10 +56,29 @@ int		main(int ac, char **av)
 		perror(av[0]);
 		return (1);
 	}
+	signal(SIGINT, SIG_IGN);
 	while (1)
 	{
-		ft_readline();
-		write(sock, "bonjour\n", 8);
+		if ((pid = fork()) < 0)
+			exit(1);
+		if (pid == 0)
+		{
+			signal(SIGINT, sigint_nl);
+			if (!(input = readline("ft_p> ")))
+				exit(1);
+			if (*input)
+			{
+				write(sock, input, ft_strlen(input));
+				read(sock, buf, FTP_READ_BUF);
+				write(1, buf, ft_strlen(buf));
+			}
+			ft_strdel(&input);
+			tcsetpgrp(STDIN, client_pid);
+			exit(0);
+		}
+		waitpid(pid, &status, 0);
+		if (WEXITSTATUS(status) == 1)
+			return (1);
 	}
 	close(sock);
 	return (0);

@@ -6,7 +6,7 @@
 #    By: wescande <wescande@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/08/29 21:32:58 by wescande          #+#    #+#              #
-#    Updated: 2017/04/03 16:12:06 by jhalford         ###   ########.fr        #
+#    Updated: 2017/04/03 18:19:23 by jhalford         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,8 +23,6 @@ DELTA		=	$$(echo "$$(tput cols)-31-$(LEN_NAME)"|bc)
 LIBFT_DIR	=	libft/
 LIBFT_LIB	=	$(LIBFT_DIR)libft.a
 LIBFT_INC	=	$(LIBFT_DIR)includes/
-
-LIBS		=
 
 SRC_DIR		=	srcs/
 INC_DIR		=	includes/
@@ -54,14 +52,14 @@ server:		$(LIBFT_LIB) $(OBJ_DIR) $(OBJS) $(SERVER_OBJ)
 	@$(CC) $(OBJS) -o $@ \
 		-I $(INC_DIR) \
 		-I $(LIBFT_INC) \
-		$(LIBS) $(LIBFT_LIB) $(SERVER_OBJ) $(FLAGS)
+		$(LIBFT_LIB) $(SERVER_OBJ) $(FLAGS)
 	@printf "\r\033[38;5;117m✓ MAKE $@ \033[0m\033[K\n"
 
 client:		$(LIBFT_LIB) $(OBJ_DIR) $(OBJS) $(CLIENT_OBJ)
 	@$(CC) $(OBJS) -o $@ \
 		-I $(INC_DIR) \
 		-I $(LIBFT_INC) \
-		$(LIBS) $(LIBFT_LIB) $(CLIENT_OBJ) $(FLAGS)
+		-lreadline $(LIBFT_LIB) $(CLIENT_OBJ) $(FLAGS)
 	@printf "\r\033[38;5;117m✓ MAKE $@ \033[0m\033[K\n"
 
 $(LIBFT_LIB):
