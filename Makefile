@@ -29,18 +29,23 @@ INC_DIR		=	includes/
 OBJ_DIR		=	objs/
 
 SERVER_OBJ	=	$(OBJ_DIR)server.o
-CLIENT_OBJ	=	$(OBJ_DIR)client.o
+CLIENT_OBJ	=	$(OBJ_DIR)client.o $(OBJ_DIR)cli_do_help.o
 
 SRC_BASE	=	\
+cli_do_debug.c\
+cli_do_get.c\
+cli_do_help.c\
+cli_do_local.c\
+cli_output.c\
 client.c\
-ftp.c\
-ftp_cmd.c\
+console_msg.c\
+req_init.c\
+serv_do_get.c\
 server.c
 
 SRCS		=	$(addprefix $(SRC_DIR), $(SRC_BASE))
 OBJS		=	$(addprefix $(OBJ_DIR), $(SRC_BASE:.c=.o))
-OBJS		:=	$(filter-out $(SERVER_OBJ), $(OBJS))
-OBJS		:=	$(filter-out $(CLIENT_OBJ), $(OBJS))
+OBJS		:=	$(filter-out $(SERVER_OBJ) $(CLIENT_OBJ), $(OBJS))
 NB			=	$(words $(SRC_BASE))
 INDEX		=	0
 

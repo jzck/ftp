@@ -15,33 +15,57 @@
 
 # define FTP_SERVER_USAGE	"%s <port>"
 # define FTP_CLIENT_USAGE	"%s <addr> <port>"
-# define FTP_BUF			1024
-# define FTP_READ_BUF		1024
-# define FTP_REPLY_BUF		1024
+
+# define MAXLINE		256
+# define MAXSIZE		512
 
 # include "libft.h"
-# include <sys/socket.h>
-# include <netdb.h>
-# include <netinet/in.h>
-# include <arpa/inet.h>
-
-# include <signal.h>
-
 # include <stdio.h>
 # include <readline/readline.h>
 
-typedef struct s_ftp_reply	t_ftp_reply;
+# include <sys/mman.h>
 
-struct		s_ftp_reply
+typedef struct s_cmd_map	t_cmd_map;
+
+struct	s_cmd_map
 {
-	int		code;
-	char	*data;
+	char	*key;
+	int		(*f)();
+	char	*help;
 };
 
-extern char		**g_av;
+enum	e_ftp
+{
+	REQUEST_FILE = 100,
+	CMD_NOT_SUPPORTED = 150,
+	CMD_SUPPORTED = 160,
+	FILENAME_OK = 700,
+	NO_SUCH_FILE,
+	TRANSFER_START,
+	ABORT = 800,
+	ERR_READ,
+	ERR_STAT,
+	ERR_MMAP,
+};
 
-int		ftp_daemon(int sock);
-int		ftp_spawn(int cs);
-int		ftp_cmd(char *cmd, t_ftp_reply *reply);
+extern char			**g_av;
+extern int			g_debug;
+extern t_cmd_map	g_cli_cmd[];
+
+int			ftp_daemon(int sock);
+int			ftp_spawn(int sock);
+int			ftp_cmd(int sock, int req);
+
+int			serv_do_get(int sock);
+
+int			console_msg(int level, char *str, ...);
+t_cmd_map	*get_cmd(char *cmd);
+int			cli_output(int req, char *name, char *msg);
+int			cli_do_help(int sock, char **av);
+int			cli_do_debug(int sock, char **av);
+int			cli_do_get(int sock, char **av);
+int			cli_do_local(int sock, char **av);
+
+int			req_init(int sock, int req, char *name);
 
 #endif

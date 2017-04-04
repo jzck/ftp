@@ -12,74 +12,71 @@
 
 #include "ft_p.h"
 
-int		create_client(char *addr, int port)
-{
-	int					sock;
-	struct protoent		*proto;
-	struct sockaddr_in	sin;
+int		g_debug = 0;
 
-	if (!(proto = getprotobyname("tcp")))
-		return (-1);
-	sock = socket(PF_INET, SOCK_STREAM, proto->p_proto);
-	sin.sin_family = AF_INET;
-	sin.sin_port = htons(port);
-	sin.sin_addr.s_addr = inet_addr(addr);
-	if (connect(sock, (const struct sockaddr *)&sin, sizeof(sin)) < 0)
-		return (-1);
-	return (sock);
+int			g_debug;
+t_cmd_map	g_cli_cmd[] =
+{
+	{"?", cli_do_help, "print local help information"},
+	{"l", cli_do_local, "execute a local command"},
+	{"debug", cli_do_debug, "toggle/set debugging mode"},
+	{"get", cli_do_get, "receive file"},
+	{"quit", NULL, "terminate ftp session and exit"},
+	{0, 0, 0},
+};
+
+t_cmd_map	*get_cmd(char *cmd)
+{
+	int		i;
+
+	i = -1;
+	while (g_cli_cmd[++i].key)
+	{
+		if (ft_strcmp(g_cli_cmd[i].key, cmd) == 0)
+			return (&g_cli_cmd[i]);
+	}
+	return (NULL);
 }
 
-void	sigint_nl(int signo)
+int		do_client(int sock)
 {
-	(void)signo;
-	ft_putchar('\n');
-	signal(SIGINT, SIG_DFL);
-	kill(SIGINT, getpid());
+	char		*input;
+	t_cmd_map	*cmd;
+	char		**av;
+
+	while (1)
+	{
+		if (!(input = readline("ft_p> ")))
+			return (1);
+		if (*input)
+		{
+			av = ft_split_whitespaces(input);
+			if (!(cmd = get_cmd(av[0])))
+				console_msg(-1, "?Invalid command");
+			else if (cmd->f)
+				(cmd->f)(sock, av);
+			else
+				return (0);
+			ft_sstrfree(av);
+		}
+		ft_strdel(&input);
+	}
 }
 
 int		main(int ac, char **av)
 {
 	int 	port;
 	int		sock;
-	char	buf[FTP_READ_BUF];
-	char	*input;
-	pid_t	pid;
-	pid_t	client_pid;
-	int		status;
 
-	client_pid = getpid();
 	if (ac != 3)
 		ft_usage(FTP_CLIENT_USAGE, av[0]);
 	port = ft_atoi(av[2]);
-	if ((sock = create_client(av[1], port)) < 0)
+	if ((sock = create_client(av[1], port, "tcp")) < 0)
 	{
 		perror(av[0]);
 		return (1);
 	}
-	signal(SIGINT, SIG_IGN);
-	while (1)
-	{
-		if ((pid = fork()) < 0)
-			exit(1);
-		if (pid == 0)
-		{
-			signal(SIGINT, sigint_nl);
-			if (!(input = readline("ft_p> ")))
-				exit(1);
-			if (*input)
-			{
-				write(sock, input, ft_strlen(input));
-				read(sock, buf, FTP_READ_BUF);
-				write(1, buf, ft_strlen(buf));
-			}
-			ft_strdel(&input);
-			tcsetpgrp(STDIN, client_pid);
-			exit(0);
-		}
-		waitpid(pid, &status, 0);
-		if (WEXITSTATUS(status) == 1)
-			return (1);
-	}
+	do_client(sock);
 	close(sock);
 	return (0);
 }
