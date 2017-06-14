@@ -45,7 +45,7 @@ int		serv_do_get(int sock)
 	num_blks = ntohs(num_blks);
 	num_last_blk = ntohs(num_last_blk);
 	i = -1;	
-	while (++i < num_blks)
+	while (++i < num_blks - 1)
 		net_send(sock, file + i * MAXSIZE, MAXSIZE);
 	if (num_last_blk)
 		net_send(sock, file + i * MAXSIZE, MAXSIZE);

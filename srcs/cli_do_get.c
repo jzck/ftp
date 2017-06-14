@@ -36,9 +36,9 @@ int		cli_do_get(int sock, char **av)
 		console_msg(3, "received num_last_blk=[%i]", num_last_blk);
 	}
 	i = -1;
-	while (++i < num_blks)
+	while (++i < num_blks - 1)
 		net_get_fd(sock, fd, MAXSIZE);
 	if (num_last_blk)
-		net_get_fd(sock, fd, MAXSIZE);
+		net_get_fd(sock, fd, num_last_blk);
 	return (0);
 }

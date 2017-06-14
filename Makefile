@@ -10,6 +10,8 @@
 #                                                                              #
 # **************************************************************************** #
 
+SHELL		:=	bash
+
 NAME		=	server client
 
 CC			=	gcc
@@ -54,17 +56,18 @@ all :
 	@make -j $(NAME)
 
 server:		$(LIBFT_LIB) $(OBJ_DIR) $(OBJS) $(SERVER_OBJ)
-	@$(CC) $(OBJS) -o $@ \
+	@$(CC) $(FLAGS) $(OBJS) -o $@ \
 		-I $(INC_DIR) \
 		-I $(LIBFT_INC) \
-		$(LIBFT_LIB) $(SERVER_OBJ) $(FLAGS)
+		$(SERVER_OBJ) $(LIBFT_LIB)
 	@printf "\r\033[38;5;117m✓ MAKE $@ \033[0m\033[K\n"
 
 client:		$(LIBFT_LIB) $(OBJ_DIR) $(OBJS) $(CLIENT_OBJ)
-	@$(CC) $(OBJS) -o $@ \
+	@$(CC) $(FLAAGS) $(OBJS) -o $@ \
 		-I $(INC_DIR) \
 		-I $(LIBFT_INC) \
-		-lreadline $(LIBFT_LIB) $(CLIENT_OBJ) $(FLAGS)
+		$(CLIENT_OBJ) $(LIBFT_LIB) \
+		-lreadline
 	@printf "\r\033[38;5;117m✓ MAKE $@ \033[0m\033[K\n"
 
 $(LIBFT_LIB):

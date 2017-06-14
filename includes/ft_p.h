@@ -24,6 +24,7 @@
 # include <readline/readline.h>
 
 # include <sys/mman.h>
+# include <sys/wait.h>
 
 typedef struct s_cmd_map	t_cmd_map;
 
