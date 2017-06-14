@@ -20,7 +20,7 @@ int		cli_do_help(int sock, char **av)
 		console_msg(0, "Commands are:");
 		i = -1;
 		while (g_cli_cmd[++i].key)
-			console_msg(0, "%s\n", g_cli_cmd[i].key);
+			console_msg(0, "%s\t%s", g_cli_cmd[i].key, g_cli_cmd[i].help);
 	}
 	return (0);
 }
