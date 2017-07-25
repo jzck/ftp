@@ -17,10 +17,10 @@
 # define FTP_CLIENT_USAGE	"%s <addr> <port>"
 
 # define MAXLINE		256
-# define MAXSIZE		512
 
 # include "libft.h"
 # include <stdio.h>
+# include <termios.h>
 # include <readline/readline.h>
 
 # include <sys/mman.h>
@@ -38,6 +38,9 @@ struct	s_cmd_map
 enum	e_ftp
 {
 	REQUEST_FILE = 100,
+	REQUEST_PUT,
+	REQUEST_SH,
+	REQUEST_CD,
 	CMD_NOT_SUPPORTED = 150,
 	CMD_SUPPORTED = 160,
 	FILENAME_OK = 700,
@@ -47,6 +50,8 @@ enum	e_ftp
 	ERR_READ,
 	ERR_STAT,
 	ERR_MMAP,
+	CMD_SUCCESS = 900,
+	CMD_FAIL,
 };
 
 extern char			**g_av;
@@ -58,15 +63,23 @@ int			ftp_spawn(int sock);
 int			ftp_cmd(int sock, int req);
 
 int			serv_do_get(int sock);
+int			serv_do_put(int sock);
+int			serv_do_sh(int sock);
+int			serv_do_cd(int sock);
 
-int			console_msg(int level, char *str, ...);
+int			read_req(int sock);
 t_cmd_map	*get_cmd(char *cmd);
-int			cli_output(int req, char *name, char *msg);
+int			console_msg(int level, char *str, ...);
+
+int			cli_do_sh(int sock, char **av);
+int			cli_do_get(int sock, char **av);
+int			cli_do_put(int sock, char **av);
+int			cli_do_cd(int sock, char **av);
+
 int			cli_do_help(int sock, char **av);
 int			cli_do_debug(int sock, char **av);
-int			cli_do_get(int sock, char **av);
 int			cli_do_local(int sock, char **av);
 
-int			req_init(int sock, int req, char *name);
+int			req_init(int sock, int req);
 
 #endif

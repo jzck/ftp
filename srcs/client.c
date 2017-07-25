@@ -17,11 +17,16 @@ int		g_debug = 0;
 int			g_debug;
 t_cmd_map	g_cli_cmd[] =
 {
+	{"ls", cli_do_sh, "list contents of remote directory"},
+	{"cd", cli_do_cd, "change remote working directory"},
+	{"get", cli_do_get, "receive file"},
+	{"put", cli_do_put, "send one file"},
+	{"pwd", cli_do_sh, "print working directory on remote machine"},
+	{"quit", NULL, "terminate ftp session and exit"},
+
 	{"?", cli_do_help, "print local help information"},
 	{"l", cli_do_local, "execute a local command"},
 	{"debug", cli_do_debug, "toggle/set debugging mode"},
-	{"get", cli_do_get, "receive file"},
-	{"quit", NULL, "terminate ftp session and exit"},
 	{0, 0, 0},
 };
 
@@ -54,7 +59,10 @@ int		do_client(int sock)
 			if (!(cmd = get_cmd(av[0])))
 				console_msg(-1, "?Invalid command");
 			else if (cmd->f)
-				(cmd->f)(sock, av);
+			{
+				if ((cmd->f)(sock, av) >= 0)
+					read_req(sock);
+			}
 			else
 				return (0);
 			ft_sstrfree(av);

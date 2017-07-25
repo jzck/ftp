@@ -18,6 +18,9 @@ char	**g_av = NULL;
 t_itof	g_ftp_cmd[] =
 {
 	{REQUEST_FILE, serv_do_get},
+	{REQUEST_PUT, serv_do_put},
+	{REQUEST_SH, serv_do_sh},
+	{REQUEST_CD, serv_do_cd},
 	{0, 0},
 };
 
@@ -34,8 +37,10 @@ int		ftp_cmd(int sock, int req)
 		{
 			if (!(g_ftp_cmd[i].f))
 				break ;
+			DG("%i CMD_SUPPORTED", CMD_SUPPORTED);
 			write(sock, (char *)&msg_ok, sizeof(msg_ok));
-			(g_ftp_cmd[i].f)(sock);
+			msg_ok = ntohs((g_ftp_cmd[i].f)(sock));
+			write(sock, (char *)&msg_ok, sizeof(msg_ok));
 			return (0);
 		}
 	}
@@ -47,14 +52,13 @@ int		ftp_cmd(int sock, int req)
 int		ftp_spawn(int sock)
 {
 	int		req;
-	int		r;
 
 	DG("new connection");
-	while ((r = read(sock, (char*)&req, sizeof(req))) > 0)
+	while ((req = read_req(sock)))
 	{
-		req = ntohs(req);
-		DG("request code [%i]", req);
+		DG("==== %i NEW REQUEST ====", req);
 		ftp_cmd(sock, req);
+		DG("==== DONE ====");
 	}
 	DG("end of connection");
 	close(sock);

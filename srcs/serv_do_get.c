@@ -8,11 +8,7 @@ int		serv_do_get(int sock)
 	int		fd;
 	struct stat	stat;
 	char	*file;
-	int		num_blks;
-	int		num_last_blk;
-	int		i;
 
-	DG("%i file requested", REQUEST_FILE);
 	ft_bzero(&fname, MAXLINE);
 	rep = htons(FILENAME_OK);
 	file = NULL;
@@ -28,29 +24,16 @@ int		serv_do_get(int sock)
 	write(sock, (char*)&rep, sizeof(rep));
 
 	if (ntohs(rep) != FILENAME_OK)
-		return (1);
-	if (read(sock, (char*)&req, sizeof(req)) < 0)
-		rep = htons(ERR_READ);
-	DG("start transfer command, %d, received", ntohs(req));
+		return (CMD_FAIL);
 
-	num_blks = htons(stat.st_size / MAXSIZE + 1);
-	num_last_blk = htons(stat.st_size % MAXSIZE);
-	DG("telling client file has [%i] blocks", ntohs(num_blks));
-	if (net_send(sock, (char*)&num_blks, sizeof(num_blks)))
-		DG("ACK not received on num_blks");
-	DG("telling client last block has [%i] bytes", ntohs(num_last_blk));
-	if (net_send(sock, (char*)&num_last_blk, sizeof(num_blks)))
-		DG("ACK not received on size of last block");
+	DG("GOING TO READ_REQ");
+	req = read_req(sock);
+	if (req != TRANSFER_START)
+		return (CMD_FAIL);
 
-	num_blks = ntohs(num_blks);
-	num_last_blk = ntohs(num_last_blk);
-	i = -1;	
-	while (++i < num_blks - 1)
-		net_send(sock, file + i * MAXSIZE, MAXSIZE);
-	if (num_last_blk)
-		net_send(sock, file + i * MAXSIZE, MAXSIZE);
+	net_send_large(sock, file, stat.st_size);
 
 	if (file && munmap(file, stat.st_size) < 0)
 		rep = htons(ERR_MMAP);
-	return (0);
+	return (CMD_SUCCESS);
 }

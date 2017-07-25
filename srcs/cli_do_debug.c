@@ -18,9 +18,9 @@ int		cli_do_debug(int sock, char **av)
 	else
 	{
 		console_msg(-1, "%s: bad debugging value", av[1]);
-		return (1);
+		return (-1);
 	}
 	console_msg(0, "Debugging %s (g_debug = %i)",
 			g_debug ? "on" : "off", g_debug);
-	return (0);
+	return (-1);
 }
