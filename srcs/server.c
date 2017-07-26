@@ -15,6 +15,7 @@
 #define FTP_SERVER_USAGE	"%s <port>"
 
 char	**g_av = NULL;
+char	g_rootdir[PATH_MAX];
 t_itof	g_ftp_cmd[] =
 {
 	{REQUEST_FILE, serv_do_get},
@@ -94,6 +95,7 @@ int		main(int ac, char **av)
 	int					sock;
 
 	g_av = av;
+	getcwd(g_rootdir, PATH_MAX);
 	if (ac != 2)
 		ft_usage(FTP_SERVER_USAGE, av[0]);
 	port = ft_atoi(av[1]);

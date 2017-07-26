@@ -25,6 +25,7 @@
 
 # include <sys/mman.h>
 # include <sys/wait.h>
+# include <limits.h>
 
 typedef struct s_cmd_map	t_cmd_map;
 
@@ -46,6 +47,8 @@ enum	e_ftp
 	FILENAME_OK = 700,
 	NO_SUCH_FILE,
 	TRANSFER_START,
+	CD_DIR_NOT_FOUND,
+	CD_RESTRICTED_DIR,
 	ABORT = 800,
 	ERR_READ,
 	ERR_STAT,
@@ -57,6 +60,8 @@ enum	e_ftp
 extern char			**g_av;
 extern int			g_debug;
 extern t_cmd_map	g_cli_cmd[];
+extern char			g_rootdir[PATH_MAX];
+
 
 int			ftp_daemon(int sock);
 int			ftp_spawn(int sock);
