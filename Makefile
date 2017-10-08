@@ -34,21 +34,21 @@ SERVER_OBJ	=	$(OBJ_DIR)server.o
 CLIENT_OBJ	=	$(OBJ_DIR)client.o $(OBJ_DIR)cli_do_help.o
 
 SRC_BASE	=	\
-client.c\
-cli_do_sh.c\
 cli_do_cd.c\
-cli_do_get.c\
-cli_do_put.c\
-cli_do_help.c\
 cli_do_debug.c\
+cli_do_get.c\
+cli_do_help.c\
 cli_do_local.c\
-read_req.c\
+cli_do_put.c\
+cli_do_sh.c\
+client.c\
 console_msg.c\
+read_req.c\
 req_init.c\
+serv_do_cd.c\
 serv_do_get.c\
 serv_do_put.c\
 serv_do_sh.c\
-serv_do_cd.c\
 server.c
 
 SRCS		=	$(addprefix $(SRC_DIR), $(SRC_BASE))

@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/02 19:18:31 by jhalford          #+#    #+#             */
-/*   Updated: 2017/04/03 18:43:40 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/10/08 12:25:25 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_cmd_map	*get_cmd(char *cmd)
 	return (NULL);
 }
 
-int		do_client(int sock)
+int			do_client(int sock)
 {
 	char		*input;
 	t_cmd_map	*cmd;
@@ -71,9 +71,9 @@ int		do_client(int sock)
 	}
 }
 
-int		main(int ac, char **av)
+int			main(int ac, char **av)
 {
-	int 	port;
+	int		port;
 	int		sock;
 
 	if (ac != 3)
