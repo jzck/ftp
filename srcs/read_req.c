@@ -14,11 +14,31 @@
 
 int		read_req(int sock)
 {
-	int		req;
+	(void)sock;
+	return (0);
+}
 
-	if (read(sock, (char*)&req, sizeof(req)) < 0)
+int		ftp_recv(int sock, char buf[], size_t size)
+{
+	int		ret;
+
+	if ((ret = recv(sock, buf, size, 0)) < 0)
 		return (0);
-	req = ntohs(req);
-	console_msg(0, "%i RECEIVED", req);
-	return (req);
+	if (ret >= 2)
+		buf[ret - 2] = 0;
+	else
+		buf[ret] = 0;
+	/* req = ntohs(req); */
+	console_msg(0, "%-5i<--- %s (%i)", getpid(), buf, ret);
+	return (0);
+}
+
+int		ftp_send(int sock, char *msg, size_t size)
+{
+	int err;
+	if ((err = send(sock, msg, size, 0)) < 0)
+		return (err);
+	msg[ft_strlen(msg) - 1] = 0;
+	console_msg(0, "%-5i---> %s", getpid(), msg);
+	return (0);
 }

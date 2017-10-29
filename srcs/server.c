@@ -50,18 +50,35 @@ int		ftp_cmd(int sock, int req)
 	return (1);
 }
 
+int		ftp_login(int sock)
+{
+	char	buf[100];
+
+	ftp_send(sock, "220 \r\n", 6);
+	ftp_recv(sock, buf, sizeof(buf));
+	if (ft_strncmp(buf, "USER ", 5) != 0)
+		console_msg(0, "expected USER");
+	if (ft_strncmp(buf + 5, "jack", 4) != 0)
+		console_msg(0, "wrong user");
+	DG("sending 331");
+	ftp_send(sock, "331 \r\n", 6);
+	ftp_recv(sock, buf, sizeof(buf));
+	return (0);
+}
+
 int		ftp_spawn(int sock)
 {
 	int		req;
 
-	DG("new connection");
-	while ((req = read_req(sock)))
+	ftp_login(sock);
+	while (1)
 	{
-		DG("==== %i NEW REQUEST ====", req);
-		ftp_cmd(sock, req);
-		DG("==== DONE ====");
+		break ;
+		(void)req;
+		/* DG("==== %i NEW REQUEST ====", req); */
+		/* ftp_cmd(sock, req); */
+		/* DG("==== DONE ===="); */
 	}
-	DG("end of connection");
 	close(sock);
 	return (0);
 }

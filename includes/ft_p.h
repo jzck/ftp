@@ -27,6 +27,8 @@
 # include <sys/wait.h>
 # include <limits.h>
 
+# include <pwd.h>
+
 typedef struct s_cmd_map	t_cmd_map;
 
 struct	s_cmd_map
@@ -66,6 +68,9 @@ extern char			g_rootdir[PATH_MAX];
 int			ftp_daemon(int sock);
 int			ftp_spawn(int sock);
 int			ftp_cmd(int sock, int req);
+
+int			ftp_send(int sock, char *msg, size_t size);
+int			ftp_recv(int sock, char buf[], size_t size);
 
 int			serv_do_get(int sock);
 int			serv_do_put(int sock);
