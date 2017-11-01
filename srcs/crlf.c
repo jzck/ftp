@@ -6,11 +6,11 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/08 12:04:11 by jhalford          #+#    #+#             */
-/*   Updated: 2017/10/08 12:06:53 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/01 19:30:16 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_p.h"
+#include "ftp_server.h"
 
 int		read_req(int sock)
 {
@@ -18,27 +18,44 @@ int		read_req(int sock)
 	return (0);
 }
 
-int		ftp_recv(int sock, char buf[], size_t size)
+int		ftp_recv(t_ftp *ftp, char **msg)
 {
 	int		ret;
+	char	buf[100];
 
-	if ((ret = recv(sock, buf, size, 0)) < 0)
+	if ((ret = recv(ftp->cmd_sock, buf, 100, 0)) < 0)
 		return (0);
-	if (ret >= 2)
+	buf[ret] = 0;
+	if (buf[ret - 1] == '\n' && buf[ret - 2] == '\r')
+	{
 		buf[ret - 2] = 0;
+	}
 	else
-		buf[ret] = 0;
-	/* req = ntohs(req); */
-	console_msg(0, "%-5i<--- %s (%i)", getpid(), buf, ret);
+		console_msg(0, "recv'd non-crlf message!");
+	*msg = ft_strdup(buf);
+	console_msg(1, "%-5i<--- %s", getpid(), buf);
 	return (0);
 }
 
-int		ftp_send(int sock, char *msg, size_t size)
+#define ftp_ret(ftp, ...)	ftp_send(ftp->cmd_sock, ##VA_ARGS)
+#define ftp_data(ftp, ...)	ftp_send(ftp->data_sock, ##VA_ARGS)
+
+int		ftp_send(int sock, char *msg, ...)
 {
-	int err;
-	if ((err = send(sock, msg, size, 0)) < 0)
+	int		err;
+	char	*crlf_tmp;
+	char	*crlf_msg;
+	va_list	ap;
+
+	va_start(ap, msg);
+	ft_vasprintf(&crlf_tmp, msg, ap);
+	crlf_msg = ft_strjoin(crlf_tmp, "\r\n");
+	if ((err = send(ftp->cmd_sock, crlf_msg, ft_strlen(crlf_msg), 0)) < 0)
+	{
 		return (err);
-	msg[ft_strlen(msg) - 1] = 0;
-	console_msg(0, "%-5i---> %s", getpid(), msg);
-	return (0);
+	}
+	console_msg(1, "%-5i---> %s", getpid(), crlf_tmp);
+	ft_strdel(&crlf_tmp);
+	ft_strdel(&crlf_msg);
+	return (ft_atoi(msg));
 }

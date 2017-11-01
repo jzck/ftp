@@ -1,34 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   serv_do_sh.c                                       :+:      :+:    :+:   */
+/*   ft_p.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/08 12:08:49 by jhalford          #+#    #+#             */
-/*   Updated: 2017/10/08 12:10:22 by jhalford         ###   ########.fr       */
+/*   Created: 2017/04/02 19:18:58 by jhalford          #+#    #+#             */
+/*   Updated: 2017/11/01 19:14:28 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_p.h"
+#ifndef FTP_H
+# define FTP_H
 
-int		serv_do_sh(int sock)
+# define MAXLINE		256
+
+enum	e_ftp
 {
-	char	command[MAXLINE];
-	int		ret;
+	REQUEST_FILE = 100,
+	REQUEST_PUT,
+	REQUEST_SH,
+	REQUEST_CD,
+	CMD_NOT_SUPPORTED = 150,
+	CMD_SUPPORTED = 160,
+	FILENAME_OK = 700,
+	NO_SUCH_FILE,
+	TRANSFER_START,
+	CD_DIR_NOT_FOUND,
+	CD_RESTRICTED_DIR,
+	ABORT = 800,
+	ERR_READ,
+	ERR_STAT,
+	ERR_MMAP,
+	CMD_SUCCESS = 900,
+	CMD_FAIL,
+};
 
-	if ((ret = read(sock, command, MAXLINE)) < 0)
-		return (CMD_FAIL);
-	command[ret] = 0;
-	DG("received '%s' command", command);
-	if (fork() == 0)
-	{
-		dup2(sock, 1);
-		system(command);
-		exit(0);
-	}
-	DG("waiting for command");
-	wait(0);
-	DG("finished waiting for command");
-	return (CMD_SUCCESS);
-}
+#include "ftp_server.h"
+
+
+#endif

@@ -6,13 +6,11 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/08 12:05:23 by jhalford          #+#    #+#             */
-/*   Updated: 2017/10/08 12:05:24 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/01 19:14:19 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_p.h"
-
-int		g_debug;
+#include "ftp_server.h"
 
 int		console_msg(int level, char *str, ...)
 {

@@ -6,7 +6,7 @@
 #    By: wescande <wescande@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/08/29 21:32:58 by wescande          #+#    #+#              #
-#    Updated: 2017/04/03 18:19:23 by jhalford         ###   ########.fr        #
+#    Updated: 2017/11/01 17:07:12 by jhalford         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,46 +30,38 @@ SRC_DIR		=	srcs/
 INC_DIR		=	includes/
 OBJ_DIR		=	objs/
 
-SERVER_OBJ	=	$(OBJ_DIR)server.o
-CLIENT_OBJ	=	$(OBJ_DIR)client.o $(OBJ_DIR)cli_do_help.o
-
 SRC_BASE	=	\
-cli_do_cd.c\
-cli_do_debug.c\
-cli_do_get.c\
-cli_do_help.c\
-cli_do_local.c\
-cli_do_put.c\
-cli_do_sh.c\
-client.c\
+client/client.c\
 console_msg.c\
-read_req.c\
-req_init.c\
-serv_do_cd.c\
-serv_do_get.c\
-serv_do_put.c\
-serv_do_sh.c\
-server.c
+crlf.c\
+login.c\
+server/cmd_list.c\
+server/cmd_port.c\
+server/cmd_pwd.c\
+server/cmd_type.c\
+server/server.c
 
 SRCS		=	$(addprefix $(SRC_DIR), $(SRC_BASE))
-OBJS		=	$(addprefix $(OBJ_DIR), $(SRC_BASE:.c=.o))
-OBJS		:=	$(filter-out $(SERVER_OBJ) $(CLIENT_OBJ), $(OBJS))
+OBJS		=	$(addprefix $(OBJ_DIR), $($(notdir SRC_BASE):.c=.o))
 NB			=	$(words $(SRC_BASE))
 INDEX		=	0
 
+SERVER_OBJ	:=	$(filter-out $(OBJ_DIR)client/%,$(OBJS))
+CLIENT_OBJ	:=	$(filter-out $(OBJ_DIR)server/%,$(OBJS))
+
 all :
 	@make -C $(LIBFT_DIR)
-	@make -j $(NAME)
+	@make $(NAME)
 
-server:		$(LIBFT_LIB) $(OBJ_DIR) $(OBJS) $(SERVER_OBJ)
-	@$(CC) $(FLAGS) $(OBJS) -o $@ \
+server:		$(LIBFT_LIB) $(OBJ_DIR) $(SERVER_OBJ)
+	@$(CC) $(FLAGS) -o $@ \
 		-I $(INC_DIR) \
 		-I $(LIBFT_INC) \
 		$(SERVER_OBJ) $(LIBFT_LIB)
 	@printf "\r\033[38;5;117m✓ MAKE $@ \033[0m\033[K\n"
 
-client:		$(LIBFT_LIB) $(OBJ_DIR) $(OBJS) $(CLIENT_OBJ)
-	@$(CC) $(FLAAGS) $(OBJS) -o $@ \
+client:		$(LIBFT_LIB) $(OBJ_DIR) $(CLIENT_OBJ)
+	@$(CC) $(FLAGS) -o $@ \
 		-I $(INC_DIR) \
 		-I $(LIBFT_INC) \
 		$(CLIENT_OBJ) $(LIBFT_LIB) \
@@ -80,7 +72,8 @@ $(LIBFT_LIB):
 	@make -C $(LIBFT_DIR)
 
 $(OBJ_DIR) :
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $@
+	@mkdir -p $(dir $(OBJS))
 
 $(OBJ_DIR)%.o :	$(SRC_DIR)%.c | $(OBJ_DIR)
 	@$(eval DONE=$(shell echo $$(($(INDEX)*20/$(NB)))))
