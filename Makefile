@@ -6,7 +6,7 @@
 #    By: wescande <wescande@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/08/29 21:32:58 by wescande          #+#    #+#              #
-#    Updated: 2017/11/01 17:07:12 by jhalford         ###   ########.fr        #
+#    Updated: 2017/11/02 15:58:48 by jhalford         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,11 +34,16 @@ SRC_BASE	=	\
 client/client.c\
 console_msg.c\
 crlf.c\
-login.c\
+ftp_dataconn.c\
+server/cmd_cwd.c\
 server/cmd_list.c\
 server/cmd_port.c\
 server/cmd_pwd.c\
+server/cmd_quit.c\
+server/cmd_retr.c\
+server/cmd_stor.c\
 server/cmd_type.c\
+server/cmd_user.c\
 server/server.c
 
 SRCS		=	$(addprefix $(SRC_DIR), $(SRC_BASE))
@@ -80,7 +85,7 @@ $(OBJ_DIR)%.o :	$(SRC_DIR)%.c | $(OBJ_DIR)
 	@$(eval PERCENT=$(shell echo $$(($(INDEX)*100/$(NB)))))
 	@$(eval TO_DO=$(shell echo $$((20-$(INDEX)*20/$(NB) - 1))))
 	@$(eval COLOR=$(shell list=(160 196 202 208 215 221 226 227 190 154 118 82 46); index=$$(($(PERCENT) * $${#list[@]} / 100)); echo "$${list[$$index]}"))
-	@printf "\r\033[38;5;%dm⌛ [%s]: %2d%% `printf '█%.0s' {0..$(DONE)}`%*s❙%*.*s\033[0m\033[K" $(COLOR) ft_p $(PERCENT) $(TO_DO) "" $(DELTA) $(DELTA) "$(shell echo "$@" | sed 's/^.*\///')"
+	@printf "\r\033[38;5;%dm⌛ [%s]: %2d%% `printf '█%.0s' {0..$(DONE)}`%*s❙%*.*s\033[0m\033[K" $(COLOR) ftp $(PERCENT) $(TO_DO) "" $(DELTA) $(DELTA) "$(shell echo "$@" | sed 's/^.*\///')"
 	@$(CC) $(FLAGS) $(OBJ_FLAG) -MMD -c $< -o $@\
 		-I $(INC_DIR)\
 		-I $(LIBFT_INC)
