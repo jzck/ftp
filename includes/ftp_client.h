@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/01 15:50:56 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/01 17:12:03 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/08 13:48:11 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,14 @@ extern t_cmd_map	g_cli_cmd[];
 
 t_cmd_map	*get_cmd(char *cmd);
 
-int			cli_do_sh(int sock, char **av);
-int			cli_do_get(int sock, char **av);
-int			cli_do_put(int sock, char **av);
-int			cli_do_cd(int sock, char **av);
+int			cli_ls(int sock, char **av);
+int			cli_sh(int sock, char **av);
+int			cli_get(int sock, char **av);
+int			cli_put(int sock, char **av);
+int			cli_cd(int sock, char **av);
 
-int			cli_do_help(int sock, char **av);
-int			cli_do_debug(int sock, char **av);
-int			cli_do_local(int sock, char **av);
+int			cli_help(int sock, char **av);
+int			cli_debug(int sock, char **av);
+int			cli_local(int sock, char **av);
 
 #endif

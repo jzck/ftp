@@ -31,12 +31,13 @@ INC_DIR		=	includes/
 OBJ_DIR		=	objs/
 
 SRC_BASE	=	\
+client/cli_ls.c\
 client/client.c\
 console_msg.c\
 crlf.c\
-ftp_dataconn.c\
 server/cmd_cwd.c\
 server/cmd_list.c\
+server/cmd_pasv.c\
 server/cmd_port.c\
 server/cmd_pwd.c\
 server/cmd_quit.c\
@@ -44,6 +45,7 @@ server/cmd_retr.c\
 server/cmd_stor.c\
 server/cmd_type.c\
 server/cmd_user.c\
+server/dconn.c\
 server/server.c
 
 SRCS		=	$(addprefix $(SRC_DIR), $(SRC_BASE))

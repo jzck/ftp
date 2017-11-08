@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 13:54:57 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/08 17:15:09 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/08 17:31:19 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int		cmd_pasv(t_ftp *ftp, char **av)
 	struct sockaddr_in	sin;
 
 	(void)av;
-	return (ftp_ret(ftp, "502 not implemented"));
 	sin.sin_family = AF_INET;
 	sin.sin_addr.s_addr = inet_addr("127.0.0.1");
 	port = 35000;

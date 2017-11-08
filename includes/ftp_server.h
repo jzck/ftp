@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/01 15:56:59 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/02 16:33:37 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/08 17:03:08 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,37 @@
 typedef struct s_ftp		t_ftp;
 typedef struct s_ftp_cmd	t_ftp_cmd;
 
-struct		s_ftp
+enum					e_dstate
+{
+	DATA_PASV,
+	DATA_ACTV,
+};
+
+enum					e_lstate
+{
+	LOG_NONE,
+	LOG_YES,
+};
+
+struct					s_ftp
 {
 	int					cmd_sock;
-	struct sockaddr_in	data_sin;
+	enum e_lstate		log_state;
 	char				username[100];
 	char				path[100];
-	int					state;
+	enum e_dstate		data_state;
+	union {
+		struct sockaddr_in	sin;
+		int					sock;
+	}					dconn;
+	int					d_sock;
 };
 
-enum		e_state
+struct					s_ftp_cmd
 {
-	IDLE,
-	LOGGED_IN,
-};
-
-struct		s_ftp_cmd
-{
-	char	*name;
-	int		(*f)();
-	int		statelock;
+	char				*name;
+	int					(*f)();
+	enum e_lstate		statelock;
 };
 
 
@@ -60,16 +71,17 @@ extern char			g_rootdir[PATH_MAX];
 
 int			ftp_send(int sock, char *msg, ...);
 int			ftp_recv(int sock, char **msg);
-int			ftp_dataconn(t_ftp *ftp);
+int			dconn_open(t_ftp *ftp);
+int			dconn_close(t_ftp *ftp);
 int			console_msg(int level, char *str, ...);
 
-int			ftp_login(t_ftp *ftp);
 int			cmd_user(t_ftp *ftp, char **av);
 int			cmd_quit(t_ftp *ftp, char **av);
 int			cmd_retr(t_ftp *ftp, char **av);
 int			cmd_stor(t_ftp *ftp, char **av);
 int			cmd_cwd(t_ftp *ftp, char **av);
 int			cmd_pwd(t_ftp *ftp, char **av);
+int			cmd_pasv(t_ftp *ftp, char **av);
 int			cmd_port(t_ftp *ftp, char **av);
 int			cmd_type(t_ftp *ftp, char **av);
 int			cmd_list(t_ftp *ftp, char **av);

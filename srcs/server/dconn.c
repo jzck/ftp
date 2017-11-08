@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 14:55:15 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/08 17:22:37 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/08 17:30:21 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int			dconn_open(t_ftp *ftp)
 
 int			dconn_close(t_ftp *ftp)
 {
-	return (ftp_ret(ftp, "226 closing dataconn"));
+	ftp_ret(ftp, "226 closing dataconn");
 	close(ftp->d_sock);
 	ftp->d_sock = 0;
 	return (0);
