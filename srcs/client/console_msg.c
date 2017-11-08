@@ -6,11 +6,11 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/08 12:05:23 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/01 19:14:19 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/08 19:58:17 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ftp_server.h"
+#include "ftp_client.h"
 
 int		console_msg(int level, char *str, ...)
 {

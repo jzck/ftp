@@ -1,42 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_p.h                                             :+:      :+:    :+:   */
+/*   console_msg.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/02 19:18:58 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/01 19:14:28 by jhalford         ###   ########.fr       */
+/*   Created: 2017/10/08 12:05:23 by jhalford          #+#    #+#             */
+/*   Updated: 2017/11/08 19:57:41 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FTP_H
-# define FTP_H
-
-# define MAXLINE		256
-
-enum	e_ftp
-{
-	REQUEST_FILE = 100,
-	REQUEST_PUT,
-	REQUEST_SH,
-	REQUEST_CD,
-	CMD_NOT_SUPPORTED = 150,
-	CMD_SUPPORTED = 160,
-	FILENAME_OK = 700,
-	NO_SUCH_FILE,
-	TRANSFER_START,
-	CD_DIR_NOT_FOUND,
-	CD_RESTRICTED_DIR,
-	ABORT = 800,
-	ERR_READ,
-	ERR_STAT,
-	ERR_MMAP,
-	CMD_SUCCESS = 900,
-	CMD_FAIL,
-};
-
 #include "ftp_server.h"
 
+int		console_msg(int level, char *str, ...)
+{
+	va_list	ap;
 
-#endif
+	va_start(ap, str);
+	if (g_debug >= level)
+	{
+		if (level == -1)
+			ft_printf("{red}");
+		if (level == 0)
+			ft_printf("{blu}");
+		else
+			ft_printf("{mag}");
+		ft_vdprintf(1, str, ap);
+		ft_printf("{eoc}\n");
+	}
+	return (level);
+}

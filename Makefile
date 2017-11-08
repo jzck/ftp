@@ -6,7 +6,7 @@
 #    By: wescande <wescande@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/08/29 21:32:58 by wescande          #+#    #+#              #
-#    Updated: 2017/11/02 15:58:48 by jhalford         ###   ########.fr        #
+#    Updated: 2017/11/08 19:53:04 by jhalford         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,8 +33,6 @@ OBJ_DIR		=	objs/
 SRC_BASE	=	\
 client/cli_ls.c\
 client/client.c\
-console_msg.c\
-crlf.c\
 server/cmd_cwd.c\
 server/cmd_list.c\
 server/cmd_pasv.c\
@@ -45,6 +43,8 @@ server/cmd_retr.c\
 server/cmd_stor.c\
 server/cmd_type.c\
 server/cmd_user.c\
+server/console_msg.c\
+server/crlf.c\
 server/dconn.c\
 server/server.c
 

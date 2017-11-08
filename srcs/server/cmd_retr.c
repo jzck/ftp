@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/02 15:32:28 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/08 15:12:28 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/08 19:04:28 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 int		cmd_retr(t_ftp *ftp, char **av)
 {
-	int		sock;
 	int		fd;
 	struct stat	buf;
 	char	*file;
 	int		i;
 	char	**split;
 
-	sock = dconn_open(ftp);
+	if (dconn_open(ftp) < 0)
+		return (-1);
 	if ((fd = open(av[1], O_RDONLY)) < 0 || fstat(fd, &buf) < 0)
 		return (ftp_ret(ftp, "550 file not found / no access"));
 	if (buf.st_size)
@@ -32,11 +32,10 @@ int		cmd_retr(t_ftp *ftp, char **av)
 		split = ft_strsplit(file, '\n');
 		i = -1;
 		while (split[++i])
-			ftp_send(sock, split[i]);
+			ftp_send(ftp->d_sock, split[i]);
 		ft_sstrfree(split);
 		munmap(file, buf.st_size);
 	}
-	ftp_ret(ftp, "226 closing dataconn");
-	close(sock);
+	dconn_close(ftp);
 	return (0);
 }

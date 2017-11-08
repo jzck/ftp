@@ -1,22 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_req.c                                         :+:      :+:    :+:   */
+/*   crlf.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/08 12:04:11 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/08 14:54:32 by jhalford         ###   ########.fr       */
+/*   Created: 2017/11/08 19:52:07 by jhalford          #+#    #+#             */
+/*   Updated: 2017/11/08 19:58:30 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ftp_server.h"
-
-int		read_req(int sock)
-{
-	(void)sock;
-	return (0);
-}
 
 int		ftp_recv(int sock, char **msg)
 {
@@ -30,8 +24,8 @@ int		ftp_recv(int sock, char **msg)
 		buf[ret - 2] = 0;
 	else
 	{
+		console_msg(-1, "recv'd non-crlf message!");
 		return (1);
-		console_msg(1, "recv'd non-crlf message!");
 	}
 	*msg = ft_strdup(buf);
 	console_msg(0, "%-5i<--- %s", getpid(), buf);
