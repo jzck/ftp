@@ -31,8 +31,15 @@ INC_DIR		=	includes/
 OBJ_DIR		=	objs/
 
 SRC_BASE	=	\
+client/cli_debug.c\
+client/cli_help.c\
 client/cli_ls.c\
+client/cli_pasv.c\
+client/cli_user.c\
 client/client.c\
+client/console_msg.c\
+client/crlf.c\
+client/dconn.c\
 server/cmd_cwd.c\
 server/cmd_list.c\
 server/cmd_pasv.c\

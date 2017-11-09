@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_port.c                                         :+:      :+:    :+:   */
+/*   cli_pasv.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/01 18:42:50 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/09 13:16:28 by jhalford         ###   ########.fr       */
+/*   Created: 2017/11/09 11:19:41 by jhalford          #+#    #+#             */
+/*   Updated: 2017/11/09 14:53:24 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ftp_server.h"
+#include "ftp_client.h"
 
-int		cmd_port(t_ftp *ftp, char **av)
+int		cli_pasv(t_ftp *ftp)
 {
+	char	*msg;
 	char	**hostport;
+	int		code;
 	char	buf[INET_ADDRSTRLEN];
 
-	if (!av[1])
-		return (ftp_ret(ftp, "501 syntax error in parameter"));
-	if (ftp->data_state == DATA_PASV)
-		close(ftp->dconn.sock);
-	hostport = ft_strsplit(av[1], ',');
+	ftp_cmd(ftp, "PASV");
+	ftp_recv(ftp->cmd_sock, &msg);
+	code = ft_atoi(msg);
+	if (code != 227)
+	{
+		console_msg(2, "PASV failed (%i)", code);
+		return (-1);
+	}
+	hostport = ft_strsplit(msg + 4, ',');
 	ftp->dconn.sin.sin_family = AF_INET;
 	ftp->dconn.sin.sin_port = htons(256 * ft_atoi(hostport[4])
 			+ ft_atoi(hostport[5]));
@@ -31,9 +37,9 @@ int		cmd_port(t_ftp *ftp, char **av)
 		+ 256 * 256 * ft_atoi(hostport[1])
 		+ 256 * ft_atoi(hostport[2])
 		+ ft_atoi(hostport[3]));
-	ftp->data_state = DATA_ACTV;
+	ftp->data_state = DATA_PASV;
 	console_msg(1, "remote dconn @ %s:%i",
 			inet_ntop(AF_INET, &ftp->dconn.sin.sin_addr, buf, sizeof(struct sockaddr_in)),
 			ntohs(ftp->dconn.sin.sin_port));
-	return (ftp_ret(ftp, "200 ip/port ok"));
+	return (0);
 }

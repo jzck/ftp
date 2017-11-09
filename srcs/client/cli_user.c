@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_list.c                                         :+:      :+:    :+:   */
+/*   cli_user.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/01 19:22:12 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/09 15:09:31 by jhalford         ###   ########.fr       */
+/*   Created: 2017/11/09 10:17:03 by jhalford          #+#    #+#             */
+/*   Updated: 2017/11/09 10:21:45 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ftp_server.h"
+#include "ftp_client.h"
 
-int		cmd_list(t_ftp *ftp, char **av)
+int		cli_user(t_ftp *ftp, char **av)
 {
-	pid_t	pid;
-	int		status;
+	int		code;
 
-	if (dconn_open(ftp) < 0)
-		return (-1);
-	if ((pid = fork()) < 0)
-		perror("fork");
-	else if (pid == 0)
+	if (av[1] == NULL || av[2] != NULL)
 	{
-		dup2(ftp->d_sock, 1);
-		execl("/bin/ls", "ls", "-lA", av[1], NULL);
+		console_msg(-1, "usage: user <username>");
+		return (-1);
 	}
-	waitpid(pid, &status, 0);
-	return (dconn_close(ftp));
+	ftp_cmd(ftp, "USER %s", av[1]);
+	code = ftp_code(ftp);
+	return (0);
 }

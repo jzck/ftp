@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/02 14:20:46 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/08 15:14:02 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/09 12:31:01 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 int		cmd_user(t_ftp *ftp, char **av)
 {
+	if (ftp->log_state == LOG_YES)
+	{
+		ftp_ret(ftp, "230 user '%s' logged in, proceed", ftp->username);
+		return (0);
+	}
 	ft_strcpy(ftp->username, av[1]);
 	ft_strcpy(ftp->path, REPOPATH);
 	ft_strcat(ftp->path, av[1]);

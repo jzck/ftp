@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/02 15:02:48 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/08 16:39:15 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/09 10:25:33 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int		ftp_spawn(int sock)
 	ftp.cmd_sock = sock;
 	ftp.log_state = LOG_NONE;
 	ftp.d_sock = 0;
-	ftp.data_state = 0;
+	ftp.data_state = DATA_NONE;
 	ftp_ret(&ftp, "220 ready for user");
 	while (ftp.cmd_sock)
 		ftp_cmd(&ftp);

@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/01 15:50:56 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/08 19:51:20 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/09 14:11:15 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@
 # include <sys/mman.h>
 # include <sys/wait.h>
 # include <limits.h>
-# include "ftp.h"
+# include <signal.h>
 
 # define FTP_CLIENT_USAGE	"%s <addr> <port>"
+# define ftp_cmd(ftp, ...)	ftp_send((ftp)->cmd_sock, ##__VA_ARGS__)
 
 typedef struct s_cmd_map	t_cmd_map;
+typedef struct s_ftp		t_ftp;
 
 struct		s_cmd_map
 {
@@ -33,18 +35,49 @@ struct		s_cmd_map
 	char	*help;
 };
 
+enum					e_dstate
+{
+	DATA_NONE,
+	DATA_PASV,
+	DATA_ACTV,
+};
+
+struct					s_ftp
+{
+	int					cmd_sock;
+	enum e_dstate		data_state;
+	union {
+		struct sockaddr_in	sin;
+		int					sock;
+	}					dconn;
+	int					d_sock;
+};
+
 extern t_cmd_map	g_cli_cmd[];
+extern int			g_debug;
 
 t_cmd_map	*get_cmd(char *cmd);
 
-int			cli_ls(int sock, char **av);
-int			cli_sh(int sock, char **av);
-int			cli_get(int sock, char **av);
-int			cli_put(int sock, char **av);
-int			cli_cd(int sock, char **av);
+int			ftp_code(t_ftp *ftp);
+int			ftp_send(int sock, char *msg, ...);
+int			ftp_recv(int sock, char **msg);
+int			dconn_init(t_ftp *ftp);
+int			dconn_open(t_ftp *ftp);
+int			dconn_close(t_ftp *ftp);
+int			console_msg(int level, char *str, ...);
 
-int			cli_help(int sock, char **av);
-int			cli_debug(int sock, char **av);
-int			cli_local(int sock, char **av);
+int			cli_debug(t_ftp *ftp, char **av);
+int			cli_user(t_ftp *ftp, char **av);
+int			cli_ls(t_ftp *ftp, char **av);
+int			cli_sh(t_ftp *ftp, char **av);
+int			cli_get(t_ftp *ftp, char **av);
+int			cli_put(t_ftp *ftp, char **av);
+int			cli_cd(t_ftp *ftp, char **av);
+
+int			cli_help(t_ftp *ftp, char **av);
+int			cli_debug(t_ftp *ftp, char **av);
+int			cli_local(t_ftp *ftp, char **av);
+
+int			cli_pasv(t_ftp *ftp);
 
 #endif

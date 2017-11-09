@@ -1,34 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   console_msg.c                                      :+:      :+:    :+:   */
+/*   cli_help.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/08 12:05:23 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/09 13:47:56 by jhalford         ###   ########.fr       */
+/*   Created: 2017/11/09 14:04:01 by jhalford          #+#    #+#             */
+/*   Updated: 2017/11/09 14:12:55 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ftp_client.h"
 
-int		console_msg(int level, char *str, ...)
+int		cli_help(t_ftp *ftp, char **av)
 {
-	va_list	ap;
+	int			i;
+	t_cmd_map	*cmd;
 
-	va_start(ap, str);
-	if (g_debug >= level)
+	(void)ftp;
+	if (!av[1])
 	{
-		if (level == -1)
-			ft_dprintf(2, "{red}");
-		else if (level == 0)
-			ft_dprintf(2, "{blu}");
-		else if (level == 1)
-			ft_dprintf(2, "{gre}");
-		else
-			ft_dprintf(2, "{yel}");
-		ft_vdprintf(2, str, ap);
-		ft_dprintf(2, "{eoc}\n");
+		i = -1;
+		while (g_cli_cmd[++i].key)	
+			console_msg(0, "%s:\t%s", g_cli_cmd[i].key, g_cli_cmd[i].help);
 	}
-	return (level);
+	else
+	{
+		i = 0;
+		while (av[++i])	
+		{
+			cmd = get_cmd(av[i]);
+			if (cmd)
+				console_msg(0, "%s:\t%s", cmd->key, cmd->help);
+			else
+				console_msg(0, "%s:\tinvalid command", av[i]);
+		}
+	}
+	return (0);
 }

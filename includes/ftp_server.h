@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/01 15:56:59 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/08 19:54:02 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/09 10:25:23 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@
 
 # include <arpa/inet.h>
 
-# include "ftp.h"
-
 # define REPOPATH "data/"
 
 # define FTP_SERVER_USAGE	"%s <port>"
@@ -33,6 +31,7 @@ typedef struct s_ftp_cmd	t_ftp_cmd;
 
 enum					e_dstate
 {
+	DATA_NONE,
 	DATA_PASV,
 	DATA_ACTV,
 };

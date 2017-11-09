@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 19:52:07 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/08 19:58:23 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/09 15:13:39 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		ftp_recv(int sock, char **msg)
 		return (1);
 	}
 	*msg = ft_strdup(buf);
-	console_msg(0, msg);
+	console_msg(0, "<--- %s", *msg);
 	return (0);
 }
 
@@ -41,6 +41,7 @@ int		ftp_send(int sock, char *msg, ...)
 
 	va_start(ap, msg);
 	ft_vasprintf(&crlf_tmp, msg, ap);
+	console_msg(1, "---> %s", crlf_tmp);
 	crlf_msg = ft_strjoin(crlf_tmp, "\r\n");
 	if ((err = send(sock, crlf_msg, ft_strlen(crlf_msg), 0)) < 0)
 	{
@@ -53,8 +54,11 @@ int		ftp_send(int sock, char *msg, ...)
 
 int		ftp_code(t_ftp *ftp)
 {
-	char	*msg
+	char	*msg;
+	int		code;
 
 	ftp_recv(ftp->cmd_sock, &msg);
-	return(ft_atoi(msg));
+	code = ft_atoi(msg);
+	ft_strdel(&msg);
+	return (code);
 }

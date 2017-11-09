@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 14:55:15 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/08 19:53:09 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/09 10:29:39 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int			dconn_open(t_ftp *ftp)
 		return (dconn_open_pasv(ftp));
 	else
 	{
+		ftp_ret(ftp, "425 can't establish data connection");
 		console_msg(1, "dconn_open() called but no dconn available");
 		return (-1);
 	}
