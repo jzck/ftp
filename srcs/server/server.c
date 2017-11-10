@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/02 15:02:48 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/09 10:25:33 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/10 19:23:13 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	g_rootdir[PATH_MAX];
 t_ftp_cmd	g_ftp_cmd[] =
 {
 	{"USER", cmd_user, 0},
-	{"QUIT", cmd_quit, 0},
+	{"QUIT", cmd_quit, LOG_YES},
 	{"RETR", cmd_retr, LOG_YES},
 	{"STOR", cmd_stor, LOG_YES},
 	{"CWD", cmd_cwd, LOG_YES},
@@ -29,6 +29,8 @@ t_ftp_cmd	g_ftp_cmd[] =
 	{"PWD", cmd_pwd, LOG_YES},
 	{"TYPE", cmd_type, LOG_YES},
 	{"LIST", cmd_list, LOG_YES},
+	{"MKD", cmd_mkd, LOG_YES},
+	{"RMD", cmd_rmd, LOG_YES},
 	{0, 0, 0},
 };
 int		g_debug = 2;

@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 19:52:07 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/10 17:35:44 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/10 18:52:09 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,23 @@ int		ftp_recvraw(int sock, char **msg)
 {
 	int		ret;
 	char	buf[1024];
+	void	*tmp;
+	int		size;
 
-	if ((ret = recv(sock, buf, 1024, 0)) <= 0)
-		return (-1);
-	buf[ret] = 0;
-	console_msg(2, "recv size=%i", ret);
-	console_msg(2, "message '%s'", buf);
-	*msg = ft_strdup(buf);
-	return (0);
+	tmp = NULL;
+	size = 0;
+	while ((ret = recv(sock, buf, 1024, 0)) > 0)
+	{
+		buf[ret] = 0;
+		*msg = ft_strnew(size + ret);
+		ft_memcpy(*msg, tmp, size);
+		ft_memcpy(*msg + size, buf, ret);
+		ft_memdel(&tmp);
+		tmp = *msg;
+		size += ret;
+	}
+	console_msg(2, "raw msg size %i", size);
+	return (size);
 }
 
 int		ftp_recv(int sock, char **msg)
@@ -49,23 +58,6 @@ int		ftp_recv(int sock, char **msg)
 		console_msg(2, "message '%s'", buf);
 	*msg = ft_strdup(buf);
 	return (0);
-}
-
-int		ftp_sendraw(int sock, char *msg, ...)
-{
-	int		err;
-	char	*tmp;
-	va_list	ap;
-
-	va_start(ap, msg);
-	ft_vasprintf(&tmp, msg, ap);
-	console_msg(1, "---> %s", tmp);
-	if ((err = send(sock, tmp, ft_strlen(tmp), 0)) < 0)
-	{
-		return (err);
-	}
-	ft_strdel(&tmp);
-	return (ft_atoi(msg));
 }
 
 int		ftp_send(int sock, char *msg, ...)

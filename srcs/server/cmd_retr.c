@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/02 15:32:28 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/10 17:32:16 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/10 18:54:04 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		cmd_retr(t_ftp *ftp, char **av)
 			munmap(file, buf.st_size);
 			return (-1);
 		}
-		ftp_sendraw(ftp->d_sock, file);
+		send(ftp->d_sock, file, buf.st_size, 0);
 		dconn_close(ftp);
 		munmap(file, buf.st_size);
 	}

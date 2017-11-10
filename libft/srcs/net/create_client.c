@@ -6,13 +6,32 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/07 17:59:28 by jhalford          #+#    #+#             */
-/*   Updated: 2017/10/07 18:02:25 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/10 19:29:49 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		create_client(char *addr, int port, char *protoname)
+void	resolve_host(struct sockaddr *s, char *hostname)
+{
+	struct addrinfo		*result;
+	struct addrinfo		hints;
+
+	memset(&hints, 0, sizeof(hints));
+	hints.ai_family = PF_UNSPEC;
+	hints.ai_socktype = SOCK_STREAM;
+	hints.ai_flags |= AI_CANONNAME;
+	if (getaddrinfo(hostname, NULL, &hints, &result) != 0)
+	{
+		perror("getaddrinfo");
+		exit(1);
+	}
+	ft_memcpy(((struct sockaddr_in*)s),
+			result->ai_addr, sizeof(struct sockaddr));
+	freeaddrinfo(result);
+}
+
+int		create_client(char *host, int port, char *protoname)
 {
 	int					sock;
 	struct protoent		*proto;
@@ -21,9 +40,9 @@ int		create_client(char *addr, int port, char *protoname)
 	if (!(proto = getprotobyname(protoname)))
 		return (-1);
 	sock = socket(PF_INET, SOCK_STREAM, proto->p_proto);
+	resolve_host((struct sockaddr*)&sin, host);
 	sin.sin_family = AF_INET;
 	sin.sin_port = htons(port);
-	sin.sin_addr.s_addr = inet_addr(addr);
 	if (connect(sock, (const struct sockaddr *)&sin, sizeof(sin)) < 0)
 		return (-1);
 	return (sock);

@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 19:52:07 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/10 17:51:32 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/10 18:55:45 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,23 @@ int		ftp_recvraw(int sock, char **msg)
 {
 	int		ret;
 	char	buf[1024];
+	void	*tmp;
+	int		size;
 
-	if ((ret = recv(sock, buf, 1024, 0)) <= 0)
-		return (-1);
-	buf[ret] = 0;
-	console_msg(2, "%-5i<--- raw msg '%s' (%i)", getpid(), buf, ret);
-	*msg = ft_strdup(buf);
-	return (0);
+	tmp = NULL;
+	size = 0;
+	while ((ret = recv(sock, buf, 1024, 0)) > 0)
+	{
+		buf[ret] = 0;
+		*msg = ft_strnew(size + ret);
+		ft_memcpy(*msg, tmp, size);
+		ft_memcpy(*msg + size, buf, ret);
+		ft_memdel(&tmp);
+		tmp = *msg;
+		size += ret;
+	}
+	console_msg(2, "%-5i<--- raw msg size %i", getpid(), size);
+	return (size);
 }
 
 int		ftp_recv(int sock, char **msg)
@@ -51,24 +61,6 @@ int		ftp_recv(int sock, char **msg)
 	*msg = ft_strdup(buf);
 	console_msg(0, "%-5i<--- %s", getpid(), buf);
 	return (0);
-}
-
-int		ftp_sendraw(int sock, char *msg, ...)
-{
-	int		err;
-	char	*tmp;
-	va_list	ap;
-
-	va_start(ap, msg);
-	ft_vasprintf(&tmp, msg, ap);
-	if ((err = send(sock, tmp, ft_strlen(tmp), 0)) < 0)
-	{
-		console_msg(1, "%-5i---> send error '%s'", getpid(), tmp);
-		return (err);
-	}
-	console_msg(0, "%-5i---> %s", getpid(), tmp);
-	ft_strdel(&tmp);
-	return (ft_atoi(msg));
 }
 
 int		ftp_send(int sock, char *msg, ...)

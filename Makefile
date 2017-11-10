@@ -36,9 +36,11 @@ client/cli_debug.c\
 client/cli_get.c\
 client/cli_help.c\
 client/cli_ls.c\
+client/cli_mkd.c\
 client/cli_pasv.c\
 client/cli_put.c\
 client/cli_pwd.c\
+client/cli_rmd.c\
 client/cli_user.c\
 client/client.c\
 client/console_msg.c\
@@ -46,11 +48,13 @@ client/crlf.c\
 client/dconn.c\
 server/cmd_cwd.c\
 server/cmd_list.c\
+server/cmd_mkd.c\
 server/cmd_pasv.c\
 server/cmd_port.c\
 server/cmd_pwd.c\
 server/cmd_quit.c\
 server/cmd_retr.c\
+server/cmd_rmd.c\
 server/cmd_stor.c\
 server/cmd_type.c\
 server/cmd_user.c\

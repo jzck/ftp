@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/02 13:36:24 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/10 13:00:01 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/10 19:34:43 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int		cmd_cwd(t_ftp *ftp, char **av)
 {
-	char	old[1024];
 	char	buf[1024];
+	char	old[1024];
 
 	getcwd(old, 1024);
 	if (chdir(av[1]))
@@ -26,9 +26,9 @@ int		cmd_cwd(t_ftp *ftp, char **av)
 	else
 	{
 		getcwd(buf, 1024);
-		if (!ft_strstr(buf, old))
+		if (!ft_strstr(buf, ftp->path))
 		{
-			console_msg(0, "%s -> %s", buf, old);
+			console_msg(0, "%s -> %s", buf, ftp->path);
 			chdir(old);
 			ftp_ret(ftp, "550 unauthorized directory");
 		}
