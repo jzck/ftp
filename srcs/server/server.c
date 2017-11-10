@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/02 15:02:48 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/10 19:40:37 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/10 19:57:20 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int		ftp_daemon(int sock)
 
 	while (1)
 	{
+		cslen = sizeof(csin);
 		cs = accept(sock, (struct sockaddr*)&csin, &cslen);
 		if ((pid = fork()) < 0)
 			return (-1);
