@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/01 15:50:56 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/10 19:28:43 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/10 19:46:45 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int			cli_debug(t_ftp *ftp, char **av);
 int			cli_local(t_ftp *ftp, char **av);
 int			cli_rmd(t_ftp *ftp, char **av);
 int			cli_mkd(t_ftp *ftp, char **av);
+int			cli_dele(t_ftp *ftp, char **av);
 
 int			cli_pasv(t_ftp *ftp);
 

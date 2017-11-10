@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/01 15:56:59 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/10 19:21:00 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/10 19:39:47 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,6 @@ int			cmd_mkd(t_ftp *ftp, char **av);
 int			cmd_mkd(t_ftp *ftp, char **av);
 int			cmd_mkd(t_ftp *ftp, char **av);
 int			cmd_rmd(t_ftp *ftp, char **av);
+int			cmd_dele(t_ftp *ftp, char **av);
 
 #endif

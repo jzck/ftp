@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cli_mkd.c                                          :+:      :+:    :+:   */
+/*   cmd_dele.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/10 19:27:35 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/10 19:40:44 by jhalford         ###   ########.fr       */
+/*   Created: 2017/11/10 19:38:40 by jhalford          #+#    #+#             */
+/*   Updated: 2017/11/10 19:39:34 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ftp_client.h"
+#include "ftp_server.h"
 
-int		cli_mkd(t_ftp *ftp, char **av)
+int		cmd_dele(t_ftp *ftp, char **av)
 {
-	if (!av[1] || av[2])
-		return (console_msg(-1, "usage: mkdir <directory>"));
-	ftp_cmd(ftp, "MKD %s", av[1]);
-	ftp_code(ftp);
+	(void)av;
+	if (unlink(av[1]) < 0)
+		return (ftp_ret(ftp, "550 unlink error"));
+	else
+		return (ftp_ret(ftp, "250 file '%s' deleted", av[1]));
 	return (0);
 }

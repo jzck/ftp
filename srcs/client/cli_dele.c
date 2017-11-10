@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cli_mkd.c                                          :+:      :+:    :+:   */
+/*   cli_dele.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/10 19:27:35 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/10 19:40:44 by jhalford         ###   ########.fr       */
+/*   Created: 2017/11/10 19:41:33 by jhalford          #+#    #+#             */
+/*   Updated: 2017/11/10 19:41:33 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ftp_client.h"
 
-int		cli_mkd(t_ftp *ftp, char **av)
+int		cli_dele(t_ftp *ftp, char **av)
 {
 	if (!av[1] || av[2])
-		return (console_msg(-1, "usage: mkdir <directory>"));
-	ftp_cmd(ftp, "MKD %s", av[1]);
+		return (console_msg(-1, "usage: unlink <directory>"));
+	ftp_cmd(ftp, "DELE %s", av[1]);
 	ftp_code(ftp);
 	return (0);
 }

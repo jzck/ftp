@@ -33,6 +33,7 @@ OBJ_DIR		=	objs/
 SRC_BASE	=	\
 client/cli_cd.c\
 client/cli_debug.c\
+client/cli_dele.c\
 client/cli_get.c\
 client/cli_help.c\
 client/cli_ls.c\
@@ -47,6 +48,7 @@ client/console_msg.c\
 client/crlf.c\
 client/dconn.c\
 server/cmd_cwd.c\
+server/cmd_dele.c\
 server/cmd_list.c\
 server/cmd_mkd.c\
 server/cmd_pasv.c\

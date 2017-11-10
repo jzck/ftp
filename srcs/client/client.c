@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/02 19:18:31 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/10 19:28:27 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/10 19:42:00 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_cmd_map	g_cli_cmd[] =
 	{"pwd", cli_pwd, "print working directory on remote machine"},
 	{"mkdir", cli_mkd, "create a directory on remote machine"},
 	{"rmdir", cli_rmd, "remove a directory from remote machine"},
+	{"unlink", cli_dele, "remove a file from remote machine"},
 	{"quit", NULL, "terminate ftp session and exit"},
 
 	{"?", cli_help, "print local help information"},
