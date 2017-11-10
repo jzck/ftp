@@ -193,6 +193,7 @@ str/ft_strndup.c\
 str/ft_strnequ.c\
 str/ft_strnew.c\
 str/ft_strnstr.c\
+str/ft_strpbrk.c\
 str/ft_strrchr.c\
 str/ft_strreplace.c\
 str/ft_strrev.c\

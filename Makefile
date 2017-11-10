@@ -31,10 +31,14 @@ INC_DIR		=	includes/
 OBJ_DIR		=	objs/
 
 SRC_BASE	=	\
+client/cli_cd.c\
 client/cli_debug.c\
+client/cli_get.c\
 client/cli_help.c\
 client/cli_ls.c\
 client/cli_pasv.c\
+client/cli_put.c\
+client/cli_pwd.c\
 client/cli_user.c\
 client/client.c\
 client/console_msg.c\

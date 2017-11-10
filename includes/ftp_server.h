@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/01 15:56:59 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/09 10:25:23 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/10 17:41:01 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,9 @@ extern int			g_debug;
 extern char			g_rootdir[PATH_MAX];
 
 int			ftp_send(int sock, char *msg, ...);
+int			ftp_sendraw(int sock, char *msg, ...);
 int			ftp_recv(int sock, char **msg);
+int			ftp_recvraw(int sock, char **msg);
 int			dconn_open(t_ftp *ftp);
 int			dconn_close(t_ftp *ftp);
 int			console_msg(int level, char *str, ...);

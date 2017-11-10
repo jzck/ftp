@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/01 18:14:51 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/02 15:49:12 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/10 13:29:46 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		cmd_type(t_ftp *ftp, char **av)
 	}
 	else if (av[1][0] == 'I')
 	{
-		ftp_ret(ftp, "200 type A ok");
+		ftp_ret(ftp, "200 type I ok");
 	}
 	else
 		ftp_ret(ftp, "500 parameter unrecognized");

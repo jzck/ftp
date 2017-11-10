@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 14:55:15 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/09 14:53:28 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/10 16:40:24 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ int			dconn_close(t_ftp *ftp)
 {
 	int		code;
 	
-	code = ftp_code(ftp);
+	if ((code = ftp_code(ftp)) < 0)
+		return (-1);
 	if (code == 226)
 	{
 		close(ftp->d_sock);

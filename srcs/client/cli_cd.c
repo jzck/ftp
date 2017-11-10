@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_list.c                                         :+:      :+:    :+:   */
+/*   cli_cd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/01 19:22:12 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/10 12:20:02 by jhalford         ###   ########.fr       */
+/*   Created: 2017/11/10 12:42:21 by jhalford          #+#    #+#             */
+/*   Updated: 2017/11/10 12:43:44 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ftp_server.h"
+#include "ftp_client.h"
 
-int		cmd_list(t_ftp *ftp, char **av)
+int		cli_cd(t_ftp *ftp, char **av)
 {
-	pid_t	pid;
-	int		status;
+	char	*msg;
 
-	if (dconn_open(ftp) < 0)
-		return (-1);
-	if ((pid = fork()) < 0)
-		perror("fork");
-	else if (pid == 0)
+	(void)av;
+	if (!av[1] || av[2])
 	{
-		dup2(ftp->d_sock, 1);
-		execl("/bin/ls", "ls", "-lA", av[1], NULL);
+		console_msg(-1, "usage: cd <dir>");
+		return (-1);
 	}
-	waitpid(pid, &status, 0);
-	return (dconn_close(ftp));
+	ftp_cmd(ftp, "CWD %s", av[1]);
+	ftp_recv(ftp->cmd_sock, &msg);
+	ft_strdel(&msg);
+	return (0);
 }

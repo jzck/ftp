@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/18 13:05:53 by jhalford          #+#    #+#             */
-/*   Updated: 2017/03/07 11:36:58 by ariard           ###   ########.fr       */
+/*   Updated: 2017/11/10 15:58:52 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,11 @@ char	*ft_strinsert(char *str, char c, int n);
 int		ft_strappend(char **dst, char *src);
 char	*ft_strbetween(char *start, char *end);
 char	*ft_strreplace(char **str, char *start, char *end, char *new);
+
 char	*ft_strtok(char *s, const char *delim);
+char	*ft_strtok_single(char *s, const char *delim);
 size_t	ft_strcspn(char *s, const char *delim);
+char	*ft_strpbrk(const char *s1, const char *s2);
 
 char	*ft_path_notdir(char *path);
 int		ft_stris(char *str, int (*f)());

@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/02 19:18:31 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/09 14:53:06 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/10 16:34:57 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ t_cmd_map	g_cli_cmd[] =
 {
 	{"ls", cli_ls, "list contents of remote directory"},
 	{"user", cli_user, "authentify user by name"},
-	/* {"cd", cli_do_cd, "change remote working directory"}, */
-	/* {"get", cli_do_get, "receive file"}, */
-	/* {"put", cli_do_put, "send one file"}, */
-	/* {"pwd", cli_do_sh, "print working directory on remote machine"}, */
+	{"cd", cli_cd, "change remote working directory"},
+	{"get", cli_get, "receive file"},
+	{"put", cli_put, "send one file"},
+	{"pwd", cli_pwd, "print working directory on remote machine"},
 	{"quit", NULL, "terminate ftp session and exit"},
 
 	{"?", cli_help, "print local help information"},

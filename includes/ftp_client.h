@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/01 15:50:56 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/09 14:11:15 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/10 17:25:37 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,14 @@ extern int			g_debug;
 
 t_cmd_map	*get_cmd(char *cmd);
 
+int			ftp_msg(t_ftp *ftp, char **msg);
 int			ftp_code(t_ftp *ftp);
+
 int			ftp_send(int sock, char *msg, ...);
+int			ftp_sendraw(int sock, char *msg, ...);
 int			ftp_recv(int sock, char **msg);
+int			ftp_recvraw(int sock, char **msg);
+
 int			dconn_init(t_ftp *ftp);
 int			dconn_open(t_ftp *ftp);
 int			dconn_close(t_ftp *ftp);
@@ -69,6 +74,7 @@ int			console_msg(int level, char *str, ...);
 int			cli_debug(t_ftp *ftp, char **av);
 int			cli_user(t_ftp *ftp, char **av);
 int			cli_ls(t_ftp *ftp, char **av);
+int			cli_pwd(t_ftp *ftp, char **av);
 int			cli_sh(t_ftp *ftp, char **av);
 int			cli_get(t_ftp *ftp, char **av);
 int			cli_put(t_ftp *ftp, char **av);

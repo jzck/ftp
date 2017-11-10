@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_list.c                                         :+:      :+:    :+:   */
+/*   ft_strpbrk.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/01 19:22:12 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/10 12:20:02 by jhalford         ###   ########.fr       */
+/*   Created: 2017/11/10 15:53:38 by jhalford          #+#    #+#             */
+/*   Updated: 2017/11/10 16:01:43 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ftp_server.h"
+#include "libft.h"
 
-int		cmd_list(t_ftp *ftp, char **av)
+/*
+**	locate multiple characters in a string
+*/
+char	*ft_strpbrk(const char *s1, const char *s2)
 {
-	pid_t	pid;
-	int		status;
+	char	*str;
 
-	if (dconn_open(ftp) < 0)
-		return (-1);
-	if ((pid = fork()) < 0)
-		perror("fork");
-	else if (pid == 0)
-	{
-		dup2(ftp->d_sock, 1);
-		execl("/bin/ls", "ls", "-lA", av[1], NULL);
-	}
-	waitpid(pid, &status, 0);
-	return (dconn_close(ftp));
+	str = (char *)s1;
+	while (*str)
+		if (ft_strchr(s2, *str))
+			return (str);
+		else
+			str++;
+	return (NULL);
 }

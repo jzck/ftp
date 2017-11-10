@@ -6,12 +6,15 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/20 15:55:33 by jhalford          #+#    #+#             */
-/*   Updated: 2017/03/20 16:00:37 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/10 15:52:55 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+/*
+**	span the complement of a string
+*/
 size_t	ft_strcspn(char *s, const char *delim)
 {
 	char	*str;
