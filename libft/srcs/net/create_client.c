@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/07 17:59:28 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/12 14:15:13 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/12 17:57:47 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ int				create_tcpclient(char *host, char *port)
 {
 	struct addrinfo		*ai;
 	int					sock;
+	struct addrinfo		*first;
 
-	ai = resolve_host(host, port);
+	first = resolve_host(host, port);
+	ai = first;
 	while (ai)
 	{
 		if ((sock = socket(ai->ai_family, ai->ai_socktype, ai->ai_protocol))
@@ -48,7 +50,7 @@ int				create_tcpclient(char *host, char *port)
 		sock = -1;
 		ai = ai->ai_next;
 	}
-	freeaddrinfo(ai);
+	freeaddrinfo(first);
 	return (sock);
 }
 

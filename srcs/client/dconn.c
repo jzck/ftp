@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 14:55:15 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/12 14:58:42 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/12 18:48:44 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,18 @@ int			dconn_close(t_ftp *ftp)
 {
 	int		code;
 
+	DG("check");
 	if ((code = ftp_code(ftp)) < 0)
 		return (-1);
+	DG("check");
 	if (code == 226)
 	{
-		close(ftp->d_sock);
+		if (ftp->d_sock != 0)
+		{
+			close(ftp->d_sock);
+			ftp->d_sock = 0;
+		}
 		ftp->data_state = DATA_NONE;
-		ftp->d_sock = 0;
 		console_msg(1, "dataconn closed");
 	}
 	else

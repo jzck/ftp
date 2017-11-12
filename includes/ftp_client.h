@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/01 15:50:56 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/12 14:39:39 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/12 19:04:13 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int							ftp_msg(t_ftp *ftp, char **msg);
 int							ftp_code(t_ftp *ftp);
 
 int							ftp_send(int sock, char *msg, ...);
+int							ftp_sendraw(int sock, char *file, off_t size);
 int							ftp_recv(int sock, char **msg);
 int							ftp_recvraw(int sock, char **msg);
 

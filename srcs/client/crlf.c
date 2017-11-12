@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 19:52:07 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/12 14:56:15 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/12 19:11:18 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 /*
 **	stream mode with file structure --> raw data no EOF
 */
+
+#define M (1024 * 1024)
 
 int		ftp_recvraw(int sock, char **msg)
 {
@@ -60,6 +62,32 @@ int		ftp_recv(int sock, char **msg)
 	*msg = ft_strdup(buf);
 	return (0);
 }
+
+int		ftp_sendraw(int sock, char *file, off_t size)
+{
+	off_t		sent;
+	off_t		chunk;
+	int			ret;
+	
+	sent = 0;
+	chunk = M / 512;
+	DG("size=%zu", size);
+	while (sent < size)
+	{
+		if (size - sent < chunk)
+			chunk = size - sent;
+		DG("sent=%zu", sent);
+		ret = send(sock, file, chunk, 0);
+		DG("ret=%i", ret);
+		console_msg(2, "---> sendraw error");
+		file += chunk;
+		sent += chunk;
+	}
+	DG("sent=%zu", sent);
+	console_msg(1, "---> rawsend done size %zu", size);
+	return (0);
+}
+
 
 int		ftp_send(int sock, char *msg, ...)
 {

@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/01 15:56:59 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/12 14:40:29 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/12 19:02:49 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 # include <pwd.h>
 
 # include <arpa/inet.h>
-
-# define REPOPATH "data/"
 
 # define FTP_SERVER_USAGE	"%s <port>"
 # define FTP_RET(ftp, ...)	ftp_send((ftp)->cmd_sock, ##__VA_ARGS__)

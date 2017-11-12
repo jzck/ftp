@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 19:52:07 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/12 15:13:42 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/12 19:02:56 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,18 @@
 **	stream mode with file structure --> raw data no EOF
 */
 
+#define M	(1024 * 1024)
+
 int		ftp_recvraw(int sock, char **msg)
 {
 	int		ret;
-	char	buf[1024];
+	char	buf[10 * M];
 	void	*tmp;
 	int		size;
 
-	tmp = NULL;
 	size = 0;
-	while ((ret = recv(sock, buf, 1024, 0)) > 0)
+	tmp = NULL;
+	while ((ret = recv(sock, buf, 10 * M, 0)) > 0)
 	{
 		buf[ret] = 0;
 		*msg = ft_strnew(size + ret);
