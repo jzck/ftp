@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 12:33:09 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/10 19:27:13 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/12 14:19:35 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		cli_pwd(t_ftp *ftp, char **av)
 {
 	(void)av;
-	ftp_cmd(ftp, "PWD");
+	FTP_CMD(ftp, "PWD");
 	ftp_code(ftp);
 	return (0);
 }

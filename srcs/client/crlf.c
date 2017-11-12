@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 19:52:07 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/10 18:52:09 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/12 14:56:15 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 /*
 **	stream mode with file structure --> raw data no EOF
 */
+
 int		ftp_recvraw(int sock, char **msg)
 {
 	int		ret;

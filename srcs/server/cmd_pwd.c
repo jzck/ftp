@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/01 17:39:01 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/02 14:18:58 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/12 14:37:45 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,6 @@ int		cmd_pwd(t_ftp *ftp, char **av)
 
 	(void)av;
 	getcwd(path, 200);
-	ftp_ret(ftp, "257 \"%s\"", path);
+	FTP_RET(ftp, "257 \"%s\"", path);
 	return (0);
 }

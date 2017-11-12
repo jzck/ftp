@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 14:04:01 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/09 14:12:55 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/12 15:02:32 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ int		cli_help(t_ftp *ftp, char **av)
 	if (!av[1])
 	{
 		i = -1;
-		while (g_cli_cmd[++i].key)	
+		while (g_cli_cmd[++i].key)
 			console_msg(0, "%s:\t%s", g_cli_cmd[i].key, g_cli_cmd[i].help);
 	}
 	else
 	{
 		i = 0;
-		while (av[++i])	
+		while (av[++i])
 		{
 			cmd = get_cmd(av[i]);
 			if (cmd)

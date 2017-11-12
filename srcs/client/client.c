@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/02 19:18:31 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/10 19:42:00 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/12 14:56:28 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ t_cmd_map	g_cli_cmd[] =
 
 	{"?", cli_help, "print local help information"},
 	{"debug", cli_debug, "set debugging level"},
-	/* {"l", cli_do_local, "execute a local command"}, */
 	{0, 0, 0},
 };
 int		g_debug = 1;
@@ -74,14 +73,12 @@ int			do_client(t_ftp *ftp)
 
 int			main(int ac, char **av)
 {
-	int		port;
 	int		sock;
 	t_ftp	ftp;
 
 	if (ac != 3)
 		ft_usage(FTP_CLIENT_USAGE, av[0]);
-	port = ft_atoi(av[2]);
-	if ((sock = create_client(av[1], port, "tcp")) < 0)
+	if ((sock = create_tcpclient(av[1], av[2])) < 0)
 	{
 		perror(av[0]);
 		return (1);

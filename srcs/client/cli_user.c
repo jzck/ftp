@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 10:17:03 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/09 10:21:45 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/12 14:19:35 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		cli_user(t_ftp *ftp, char **av)
 		console_msg(-1, "usage: user <username>");
 		return (-1);
 	}
-	ftp_cmd(ftp, "USER %s", av[1]);
+	FTP_CMD(ftp, "USER %s", av[1]);
 	code = ftp_code(ftp);
 	return (0);
 }

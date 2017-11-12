@@ -6,49 +6,53 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/07 17:59:28 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/10 19:29:49 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/12 14:15:13 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	resolve_host(struct sockaddr *s, char *hostname)
+struct addrinfo	*resolve_host(char *hostname, char *port)
 {
 	struct addrinfo		*result;
 	struct addrinfo		hints;
+	int					ecode;
 
 	memset(&hints, 0, sizeof(hints));
+	hints.ai_flags = AI_CANONNAME;
 	hints.ai_family = PF_UNSPEC;
 	hints.ai_socktype = SOCK_STREAM;
-	hints.ai_flags |= AI_CANONNAME;
-	if (getaddrinfo(hostname, NULL, &hints, &result) != 0)
+	hints.ai_protocol = IPPROTO_TCP;
+	if ((ecode = getaddrinfo(hostname, port, &hints, &result)) != 0)
 	{
-		perror("getaddrinfo");
+		ft_dprintf(2, "getaddrinfo: %s\n", gai_strerror(ecode));
 		exit(1);
 	}
-	ft_memcpy(((struct sockaddr_in*)s),
-			result->ai_addr, sizeof(struct sockaddr));
-	freeaddrinfo(result);
+	return (result);
 }
 
-int		create_client(char *host, int port, char *protoname)
+int				create_tcpclient(char *host, char *port)
 {
+	struct addrinfo		*ai;
 	int					sock;
-	struct protoent		*proto;
-	struct sockaddr_in	sin;
 
-	if (!(proto = getprotobyname(protoname)))
-		return (-1);
-	sock = socket(PF_INET, SOCK_STREAM, proto->p_proto);
-	resolve_host((struct sockaddr*)&sin, host);
-	sin.sin_family = AF_INET;
-	sin.sin_port = htons(port);
-	if (connect(sock, (const struct sockaddr *)&sin, sizeof(sin)) < 0)
-		return (-1);
+	ai = resolve_host(host, port);
+	while (ai)
+	{
+		if ((sock = socket(ai->ai_family, ai->ai_socktype, ai->ai_protocol))
+				< 0)
+			return (-1);
+		if (connect(sock, ai->ai_addr, ai->ai_addrlen) == 0)
+			break ;
+		close(sock);
+		sock = -1;
+		ai = ai->ai_next;
+	}
+	freeaddrinfo(ai);
 	return (sock);
 }
 
-void	listener(int domain, int sock, int proto,
+void			listener(int domain, int sock, int proto,
 		void (*handler)(void *buf, int bytes, struct sockaddr_in *addr))
 {
 	int					sd;

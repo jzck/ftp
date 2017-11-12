@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 14:55:15 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/10 18:20:14 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/12 14:58:42 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	dconn_open_pasv(t_ftp *ftp)
 	if (connect(sock, (struct sockaddr*)&ftp->dconn.sin,
 				sizeof(struct sockaddr_in)) < 0)
 	{
-		return(-1);
+		return (-1);
 	}
 	ftp->d_sock = sock;
 	return (0);
@@ -32,7 +32,7 @@ static int	dconn_open_actv(t_ftp *ftp)
 
 	if ((sock = accept(ftp->dconn.sock, NULL, NULL)) < 0)
 	{
-		return(-1);
+		return (-1);
 	}
 	ftp->d_sock = sock;
 	return (0);
@@ -51,7 +51,7 @@ int			dconn_init(t_ftp *ftp)
 int			dconn_open(t_ftp *ftp)
 {
 	int		code;
-	
+
 	code = ftp_code(ftp);
 	if (code == 150)
 	{
@@ -61,14 +61,14 @@ int			dconn_open(t_ftp *ftp)
 			return (dconn_open_pasv(ftp));
 	}
 	else if (code == 125)
-		return (0);	
+		return (0);
 	return (-1);
 }
 
 int			dconn_close(t_ftp *ftp)
 {
 	int		code;
-	
+
 	if ((code = ftp_code(ftp)) < 0)
 		return (-1);
 	if (code == 226)

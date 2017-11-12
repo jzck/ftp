@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/07 18:06:12 by jhalford          #+#    #+#             */
-/*   Updated: 2017/10/07 18:14:42 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/12 12:21:30 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # include "mytime.h"
 
 int		create_server(int port, int backlog, char *protoname);
-int		create_client(char *addr, int port, char *protoname);
+int		create_tcpclient(char *host, char *port);
 void	listener(int domain, int sock, int proto,
 		void (*handler)(void *buf, int bytes, struct sockaddr_in *addr));
 

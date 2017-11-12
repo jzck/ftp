@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 15:53:38 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/10 16:01:43 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/12 14:15:25 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 /*
 **	locate multiple characters in a string
 */
+
 char	*ft_strpbrk(const char *s1, const char *s2)
 {
 	char	*str;

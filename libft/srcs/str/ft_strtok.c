@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/07 18:08:31 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/10 15:56:57 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/12 14:19:22 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 /*
 **	token generator
 */
+
 char	*ft_strtok(char *s, const char *delim)
 {
 	static char	*lasts;
@@ -39,18 +40,21 @@ char	*ft_strtok(char *s, const char *delim)
 /*
 **	also returns empty strings in the case of multiple delimiters
 */
+
 char	*ft_strtok_single(char *str, char const *delims)
 {
 	static char	*src = NULL;
 	char		*p;
-	char		*ret = 0;
+	char		*ret;
 
+	ret = 0;
 	if (str != NULL)
 		src = str;
 	if (src == NULL)
-		return NULL;
-	if ((p = strpbrk (src, delims)) != NULL) {
-		*p  = 0;
+		return (NULL);
+	if ((p = strpbrk(src, delims)) != NULL)
+	{
+		*p = 0;
 		ret = src;
 		src = ++p;
 	}
@@ -59,5 +63,5 @@ char	*ft_strtok_single(char *str, char const *delims)
 		ret = src;
 		src = NULL;
 	}
-	return ret;
+	return (ret);
 }

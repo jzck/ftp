@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/02 13:36:24 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/10 19:34:43 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/12 14:37:44 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		cmd_cwd(t_ftp *ftp, char **av)
 	if (chdir(av[1]))
 	{
 		console_msg(1, "chdir(%s) failed errno=%i", av[1], errno);
-		ftp_ret(ftp, "550 directory not found");
+		FTP_RET(ftp, "550 directory not found");
 	}
 	else
 	{
@@ -30,10 +30,10 @@ int		cmd_cwd(t_ftp *ftp, char **av)
 		{
 			console_msg(0, "%s -> %s", buf, ftp->path);
 			chdir(old);
-			ftp_ret(ftp, "550 unauthorized directory");
+			FTP_RET(ftp, "550 unauthorized directory");
 		}
 		else
-			ftp_ret(ftp, "200 success");
+			FTP_RET(ftp, "200 success");
 	}
 	return (0);
 }

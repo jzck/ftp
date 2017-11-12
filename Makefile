@@ -49,6 +49,7 @@ client/crlf.c\
 client/dconn.c\
 server/cmd_cwd.c\
 server/cmd_dele.c\
+server/cmd_epsv.c\
 server/cmd_list.c\
 server/cmd_mkd.c\
 server/cmd_pasv.c\

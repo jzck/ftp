@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 13:43:10 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/10 18:39:39 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/12 14:19:35 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		cli_ls(t_ftp *ftp, char **av)
 	(void)av;
 	if (dconn_init(ftp) < 0)
 		return (-1);
-	ftp_cmd(ftp, "LIST -a");
+	FTP_CMD(ftp, "LIST -a");
 	if (dconn_open(ftp) < 0)
 		return (-1);
 	while (1)

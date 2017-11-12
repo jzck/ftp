@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 13:00:28 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/10 18:55:01 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/12 15:02:03 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	cleanup(int fd, char *filename)
 	return (-1);
 }
 
-int		cli_get(t_ftp *ftp, char **av)
+int			cli_get(t_ftp *ftp, char **av)
 {
 	char	*msg;
 	int		fd;
@@ -31,7 +31,7 @@ int		cli_get(t_ftp *ftp, char **av)
 		return (-1);
 	if (dconn_init(ftp) < 0)
 		return (cleanup(fd, av[1]));
-	ftp_cmd(ftp, "RETR %s", av[1]);
+	FTP_CMD(ftp, "RETR %s", av[1]);
 	if (dconn_open(ftp) < 0)
 		return (cleanup(fd, av[1]));
 	size = ftp_recvraw(ftp->d_sock, &msg);
