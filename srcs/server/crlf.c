@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 19:52:07 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/12 14:45:09 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/12 15:13:42 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,11 @@ int		ftp_recv(int sock, char **msg)
 	buf[ret] = 0;
 	if (buf[ret - 1] == '\n' && buf[ret - 2] == '\r')
 		buf[ret - 2] = 0;
+	else if (buf[ret - 1] == '\n')
+		buf[ret - 1] = 0;
 	else
 	{
-		console_msg(2, "recv'd non-crlf message '%s'", buf);
+		console_msg(2, "recv'd non-crlf/lf message '%s'", buf);
 		return (1);
 	}
 	*msg = ft_strdup(buf);

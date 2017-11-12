@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/02 19:18:31 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/12 14:56:28 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/12 15:14:18 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_cmd_map	g_cli_cmd[] =
 	{"debug", cli_debug, "set debugging level"},
 	{0, 0, 0},
 };
-int		g_debug = 1;
+int		g_debug = 0;
 
 t_cmd_map	*get_cmd(char *cmd)
 {
