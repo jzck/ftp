@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/02 15:02:48 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/12 17:59:25 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/15 12:47:20 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_ftp_cmd	g_ftp_cmd[] =
 	{"DELE", cmd_dele, LOG_YES},
 	{0, 0, 0},
 };
-int		g_debug = 2;
+int		g_debug = 10;
 
 int		ftp_cmd(t_ftp *ftp, char *msg)
 {

@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/02 16:01:54 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/12 18:35:55 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/15 13:01:47 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ int		cmd_stor(t_ftp *ftp, char **av)
 		dconn_close(ftp);
 		return (FTP_RET(ftp, "550 couldn't open/create file"));
 	}
+	console_msg(2, "recvraw() now");
 	size = ftp_recvraw(ftp->d_sock, &msg);
+	console_msg(2, "recvraw() done");
 	write(fd, msg, size);
 	ft_strdel(&msg);
 	close(fd);

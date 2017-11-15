@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 14:55:15 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/12 18:48:44 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/15 13:11:45 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,11 @@ int			dconn_open(t_ftp *ftp)
 {
 	int		code;
 
-	code = ftp_code(ftp);
+	if ((code = ftp_code(ftp)) < 0)
+	{
+		console_msg(1, "code=%i", code);
+		return (-1);
+	}
 	if (code == 150)
 	{
 		if (ftp->data_state == DATA_ACTV)
@@ -69,10 +73,8 @@ int			dconn_close(t_ftp *ftp)
 {
 	int		code;
 
-	DG("check");
 	if ((code = ftp_code(ftp)) < 0)
 		return (-1);
-	DG("check");
 	if (code == 226)
 	{
 		if (ftp->d_sock != 0)

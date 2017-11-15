@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 19:52:07 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/12 19:11:18 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/15 13:26:43 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,21 @@
 **	stream mode with file structure --> raw data no EOF
 */
 
-#define M (1024 * 1024)
+#define M		(1024 * 1024)
+#define CHUNK	(M)
 
 int		ftp_recvraw(int sock, char **msg)
 {
 	int		ret;
-	char	buf[1024];
+	char	buf[CHUNK];
 	void	*tmp;
 	int		size;
 
 	tmp = NULL;
 	size = 0;
-	while ((ret = recv(sock, buf, 1024, 0)) > 0)
+	while ((ret = recv(sock, buf, CHUNK, 0)) > 0)
 	{
+		console_msg(2, "recv size=%i", ret);
 		buf[ret] = 0;
 		*msg = ft_strnew(size + ret);
 		ft_memcpy(*msg, tmp, size);
@@ -71,19 +73,15 @@ int		ftp_sendraw(int sock, char *file, off_t size)
 	
 	sent = 0;
 	chunk = M / 512;
-	DG("size=%zu", size);
 	while (sent < size)
 	{
 		if (size - sent < chunk)
 			chunk = size - sent;
-		DG("sent=%zu", sent);
 		ret = send(sock, file, chunk, 0);
-		DG("ret=%i", ret);
 		console_msg(2, "---> sendraw error");
 		file += chunk;
 		sent += chunk;
 	}
-	DG("sent=%zu", sent);
 	console_msg(1, "---> rawsend done size %zu", size);
 	return (0);
 }
@@ -115,8 +113,8 @@ int		ftp_msg(t_ftp *ftp, char **msg)
 
 	if (ftp_recv(ftp->cmd_sock, msg) < 0)
 		return (-1);
-	console_msg(0, "<--- %s", *msg);
 	code = ft_atoi(*msg);
+	console_msg(0, "<--- %s (%i)", *msg, code);
 	return (code);
 }
 
@@ -125,7 +123,8 @@ int		ftp_code(t_ftp *ftp)
 	char	*msg;
 	int		code;
 
-	code = ftp_msg(ftp, &msg);
+	if ((code = ftp_msg(ftp, &msg)) < 0)
+		return (-1);
 	ft_strdel(&msg);
 	return (code);
 }

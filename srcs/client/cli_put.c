@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 16:20:14 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/12 19:19:47 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/15 13:22:33 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,17 @@ int		cli_put(t_ftp *ftp, char **av)
 		return (munmap(file, buf.st_size));
 	FTP_CMD(ftp, "STOR %s", fname(av[1]));
 	if (dconn_open(ftp) < 0)
+	{
+		console_msg(0, "Upload FAIL");
 		return (munmap(file, buf.st_size));
-	console_msg(0, "Upload in progess, please wait... %i", buf.st_size);
-	/* ftp_sendraw(ftp->d_sock, file, buf.st_size); */
-	send(ftp->d_sock, file, buf.st_size, 0);
+	}
+	console_msg(0, "upload in progess, please wait... (%i bytes)", buf.st_size);
+	if (send(ftp->d_sock, file, buf.st_size, 0) < 0)
+		console_msg(0, "upload FAIL");
+	else
+		console_msg(0, "upload SUCCESS");
 	close(ftp->d_sock);
 	ftp->d_sock = 0;
-	dconn_close(ftp);
 	munmap(file, buf.st_size);
-	return (0);
+	return (dconn_close(ftp));
 }

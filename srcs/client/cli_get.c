@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 13:00:28 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/12 15:02:03 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/15 13:23:32 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,15 @@ int			cli_get(t_ftp *ftp, char **av)
 	FTP_CMD(ftp, "RETR %s", av[1]);
 	if (dconn_open(ftp) < 0)
 		return (cleanup(fd, av[1]));
-	size = ftp_recvraw(ftp->d_sock, &msg);
-	write(fd, msg, size);
-	ft_strdel(&msg);
+	console_msg(0, "download in progress... please wait");
+	if ((size = ftp_recvraw(ftp->d_sock, &msg)) < 0)
+		console_msg(0, "download FAIL");
+	else
+	{
+		console_msg(0, "download SUCCESS");
+		write(fd, msg, size);
+		ft_strdel(&msg);
+	}
 	close(fd);
 	dconn_close(ftp);
 	return (0);

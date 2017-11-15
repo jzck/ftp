@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/08 12:05:23 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/08 19:57:41 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/15 13:28:07 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,19 @@ int		console_msg(int level, char *str, ...)
 	va_list	ap;
 
 	va_start(ap, str);
+	ft_dprintf(2, "|%-5d| ", getpid());
 	if (g_debug >= level)
 	{
 		if (level == -1)
-			ft_printf("{red}");
-		if (level == 0)
-			ft_printf("{blu}");
+			ft_dprintf(2, "{red}");
+		else if (level == 0)
+			ft_dprintf(2, "{blu}");
+		else if (level == 1)
+			ft_dprintf(2, "{gre}");
 		else
-			ft_printf("{mag}");
-		ft_vdprintf(1, str, ap);
-		ft_printf("{eoc}\n");
+			ft_dprintf(2, "{yel}");
+		ft_vdprintf(2, str, ap);
+		ft_dprintf(2, "{eoc}\n");
 	}
 	return (level);
 }

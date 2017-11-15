@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/02 15:32:28 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/12 14:50:38 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/15 13:23:28 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,11 @@ static int	retr_internal(t_ftp *ftp, struct stat buf, int fd)
 		munmap(file, buf.st_size);
 		return (-1);
 	}
+	console_msg(1, "starting upload");
 	send(ftp->d_sock, file, buf.st_size, 0);
+	console_msg(1, "upload done");
+	close(ftp->d_sock);
+	ftp->d_sock = 0;
 	dconn_close(ftp);
 	munmap(file, buf.st_size);
 	return (0);
