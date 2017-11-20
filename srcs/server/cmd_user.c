@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/02 14:20:46 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/20 13:00:37 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/20 13:48:52 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int			cmd_user(t_ftp *ftp, char **av)
 	if ((mkdir(ftp->path, S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH) < 0
 			&& errno != EEXIST)
 			|| chdir(ftp->path) < 0)
-		return (FTP_RET(ftp, "530 mkdir/chdir error"));
+		return (FTP_RET(ftp, "530 server doesn't have sufficient permissions"));
 	FTP_RET(ftp, "230 user logged in, proceed", ftp->username);
 	console_msg(1, "logon: %s@ftp://%s", ftp->username, ftp->path);
 	ftp->log_state = LOG_YES;
