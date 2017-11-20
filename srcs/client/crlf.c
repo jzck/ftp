@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 19:52:07 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/20 13:00:14 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/20 13:24:00 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int		ftp_recv(int sock, char **msg)
 		return (-1);
 	if (ret == 0)
 		return (-1);
-	console_msg(2, "recv size=%i", ret);
 	buf[ret] = 0;
 	if (buf[ret - 1] == '\n' && buf[ret - 2] == '\r')
 	{
