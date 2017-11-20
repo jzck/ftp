@@ -6,7 +6,7 @@
 /*   By: jhalford <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/07 13:49:04 by jhalford          #+#    #+#             */
-/*   Updated: 2017/10/07 18:07:31 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/20 12:41:50 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 # include "error.h"
 # include "color.h"
 # include "cliopts.h"
-# include "rs.h"
 
 # include "lst.h"
 # include "dlst.h"
