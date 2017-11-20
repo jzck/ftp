@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 19:52:07 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/15 13:26:43 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/20 13:00:14 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int		ftp_sendraw(int sock, char *file, off_t size)
 	off_t		sent;
 	off_t		chunk;
 	int			ret;
-	
+
 	sent = 0;
 	chunk = M / 512;
 	while (sent < size)
@@ -84,47 +84,4 @@ int		ftp_sendraw(int sock, char *file, off_t size)
 	}
 	console_msg(1, "---> rawsend done size %zu", size);
 	return (0);
-}
-
-
-int		ftp_send(int sock, char *msg, ...)
-{
-	int		err;
-	char	*crlf_tmp;
-	char	*crlf_msg;
-	va_list	ap;
-
-	va_start(ap, msg);
-	ft_vasprintf(&crlf_tmp, msg, ap);
-	console_msg(1, "---> %s", crlf_tmp);
-	crlf_msg = ft_strjoin(crlf_tmp, "\r\n");
-	if ((err = send(sock, crlf_msg, ft_strlen(crlf_msg), 0)) < 0)
-	{
-		return (err);
-	}
-	ft_strdel(&crlf_tmp);
-	ft_strdel(&crlf_msg);
-	return (ft_atoi(msg));
-}
-
-int		ftp_msg(t_ftp *ftp, char **msg)
-{
-	int		code;
-
-	if (ftp_recv(ftp->cmd_sock, msg) < 0)
-		return (-1);
-	code = ft_atoi(*msg);
-	console_msg(0, "<--- %s (%i)", *msg, code);
-	return (code);
-}
-
-int		ftp_code(t_ftp *ftp)
-{
-	char	*msg;
-	int		code;
-
-	if ((code = ftp_msg(ftp, &msg)) < 0)
-		return (-1);
-	ft_strdel(&msg);
-	return (code);
 }

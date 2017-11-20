@@ -6,7 +6,7 @@
 /*   By: jhalford <jack@crans.org>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/02 14:20:46 by jhalford          #+#    #+#             */
-/*   Updated: 2017/11/12 18:28:35 by jhalford         ###   ########.fr       */
+/*   Updated: 2017/11/20 13:00:37 by jhalford         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	strisalnum(char *str)
 {
 	char	*s;
-	
+
 	s = str;
 	while (*s)
 	{
@@ -26,7 +26,7 @@ static int	strisalnum(char *str)
 	return (1);
 }
 
-int		cmd_user(t_ftp *ftp, char **av)
+int			cmd_user(t_ftp *ftp, char **av)
 {
 	if (ftp->log_state == LOG_YES)
 	{

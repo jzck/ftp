@@ -47,6 +47,7 @@ client/client.c\
 client/console_msg.c\
 client/crlf.c\
 client/dconn.c\
+client/ftp_crlf.c\
 server/cmd_cwd.c\
 server/cmd_dele.c\
 server/cmd_epsv.c\
